@@ -1,1 +1,1 @@
-# Proyecto Bases de Datos Avanzados 02 v 2.0
+# Proyecto Programado 02 Bases de Datos Avanzados v 2.0
