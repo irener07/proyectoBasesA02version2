@@ -12,6 +12,9 @@ connectDb();
 module.exports = router;
 
 app.use(router);
+app.use(require('./routes/index'));
+app.use(require('./routes/users'));
+app.use(express.static(path.join(__dirname,'public')));
 //app.use(express.static(__dirname + '/css'));
 //app.use(express.static(__dirname + '/javascript'));
 app.listen(config.PORT, ()=> console.log(`Server on port ${config.PORT}`));
