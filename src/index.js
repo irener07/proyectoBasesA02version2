@@ -7,15 +7,19 @@ const app = express();
 const router = express.Router();
 const connectDb = require('./configuration/server');
 const config = require('./configuration/connectDB');
-connectDb();
+const bodyParser = require('body-parser');
+const bodyParserJSON = bodyParser.json();
+const bodyParserURLEncoded = bodyParser.urlencoded({extended: true});
 
 module.exports = router;
 
-app.use(router);
+app.use(bodyParserJSON);
+app.use(bodyParserURLEncoded);
+
 app.use(require('./routes/index'));
 app.use(require('./routes/users'));
+app.use(require('./routes/clients'));
 app.use(express.static(__dirname + '/public'));
-app.listen(config.PORT, ()=> console.log(`Server on port ${config.PORT}`));
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', exphbs({
   defaultLayout: 'main',
@@ -31,3 +35,7 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }));
+
+app.use(router);
+app.listen(config.PORT, ()=> console.log(`Server on port ${config.PORT}`));
+connectDb();
