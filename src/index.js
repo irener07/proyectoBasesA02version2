@@ -13,6 +13,8 @@ const bodyParserURLEncoded = bodyParser.urlencoded({extended: true});
 const flash = require('connect-flash');
 const passport = require('passport');
 
+// require('./configuration/passport');
+
 module.exports = router;
 
 app.use(bodyParserJSON);
