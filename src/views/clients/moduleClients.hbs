@@ -1,1 +1,37 @@
-<h1> Hola</h1>
+<div class="row">
+    {{#each clients}}
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body align-items-center d-flex justify-content-center">
+                    <p>{{id}}</p> <a href="/clients/edit/{{_id}}"><i class="fas fa-edit"></i></a>
+                    <p>{{firstName}}</p>
+                    <p>{{lastName}}</p>
+                    <p>{{birthDate}}</p>
+                    <p>{{nationality}}</p>
+                    <p>{{country}}</p>
+                    <p>{{state}}</p>
+                    <p>{{adress}}</p>
+                    <p>{{email}}</p>
+                    <p>{{password}}</p>
+                    <p>{{telephone}}</p>
+                    
+
+                    <form action="/clients/delete/{{_id}}?_method=DELETE" method="POST">
+                    <input type="hidden" name="_method" value="DELETE">
+
+                    <button class="btn btn-danger btn-block btn-sm" type="submit">
+                        Delete
+                    </button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        {{else}}
+            <div class="card mx-auto">
+                <div class="card-body">
+                    <p class="lead">There are no clients yet.</p>
+                </div> 
+            </div>
+    {{/each}}
+</div>
