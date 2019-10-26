@@ -1,9 +1,50 @@
-<div class="row">
-    <div class="col-md-4 mx-auto">
-        <div class="card">
-            <div class="car-hearder">
+{{#each errors}}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{text}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">6times</span>
+        </button>
+    </div>
+{{/each}}
+
+
+
+<div class="col-md-4 mx-auto">
+    <div class="card">
+    <div class="card-header">
+        <h3>New Employee</h3>
+    </div>
+
+    <div class="card-body">
+            <form action="/employees/signUpEmployees" method="POST">
+            <div class="form-group">
+                ID:
+                    <input type="text" name="employeeId"></br>
+                Name:
+                    <input type="text" name="employeeName"></br>
+                Second Names:
+                    <input type="text" name="employeeSecondNames"></br>
+           
+                Select Type: <select name ="typeC" id ="typeC">
+                    <option value="Administrative">Administrative</option>
+                    <option value="Technical">Technical</option>
+                    <option value="Operator">Operator</option>     
+                </select> </br> 
+                
+                Select WorkDepartment: <select name ="WorkDepartmentC" id ="WorkDepartmentC">
+                    <option value="Counter">Counter</option>
+                    <option value="BoardingRooms">BoardingRooms</option>
+                    <option value="Load">Load</option>
+                    <option value="Maintenance">Maintenance</option>     
+                </select>   </br>            
                 
             </div>
+            <div class="form-group">
+                <button class="bton btn-primary btn-block" type="submit">
+                    Save
+                </button>
+            </div>
+            </form>
         </div>
     </div>
 </div>
