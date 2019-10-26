@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/sigin', (req,res) => {
+router.get('/signin', (req,res) => {
     res.send('Ingresando a la app');
 });
 
