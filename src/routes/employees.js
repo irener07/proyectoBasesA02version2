@@ -1,34 +1,49 @@
 const express = require('express');
 const router = express.Router();
 const employees = require('../models/employees');
+const currentDate = Date.now;
 
 router.get('/employees/signUpEmployees', (req, res) => {
     res.render('employees/signUpEmployees');
   });
 
   router.post('/employees/signUpEmployees', async (req, res) => {
-      const { employeeId, employeeName, employeeSecondNames, typeC, WorkDepartmentC}= req.body;
+      const { id, firstName, lastName, type, jobArea, email, password }= req.body;
       const errors=[];
-      
-    if(typeC==-1){
+      console.log(req.body);
+
+    if(type==-1){
         errors.push({text: 'Please, Select the type of worker'});
     }
-    if(WorkDepartmentC==-1){
+    if(jobArea==-1){
         errors.push({text: 'Please, Select a department'});
     }
-    if(employeeId=='' || employeeName=='' ||  employeeSecondNames==''){
+    if(id=='' || firstName=='' ||  lastName=='' ||  password=='' 
+    ||  email==''){
         errors.push({text: 'Please, Insert the complete Data'});
     }
-    else{
-        const newEmployee = new employees( {id,firstName, lastName, type, hiringDate, jobArea, 
-        email, password} );
-        await newEmployee.save();
-        res.redirect('clients/signUpClients');
+    if(errors.length>0){
+        res.render('employees/signUpEmployees',{errors, id, firstName, lastName, type, 
+            jobArea, email, password });   }
+            
+        else{
+            const idE = await employees.findOne({id: id});
+            const emailEmployee = await employees.findOne({email: email});
+            if (emailEmployee || idE){
+                req.flash('error_msg', 'The ID or Email is Already Registered');
+                res.redirect('/employees/signUpEmployees');
+            }
+
+            const newEmployee = new employees( {id, firstName, lastName, type, currentDate, 
+            jobArea, email, password } );
+            newEmployee.password = await newEmployee.encryptPassword(password);
+            await newEmployee.save();
+            req.flash('success_msg', 'Successful Registration');
+            res.redirect('/clients/signUpClients');
+    
+        } 
+    
     }
+       );
+module.exports = router;
 
-    res.render('employees/signUpEmployees');
-});
-
-
-//const passport = require('passport');
-//const clients = require('../models/clients');
