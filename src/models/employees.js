@@ -17,12 +17,12 @@ const employeesSchema = new Schema({
         required: true
     },
     type: {
-        type: String,
+        type: Object,
         required: true
     },
     hiringDate: {
         type: Date,
-        required: true
+        default: Date.now
     },
     jobArea: {
         type: Object,
