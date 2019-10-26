@@ -21,6 +21,10 @@ router.get('/airports/new', (req, res) => {
     res.render('employees/signUpEmployees');
   });
 
+  
+  router.get('/airports/all', (req, res) => {
+    res.render('airports/all-airports');
+  });
 module.exports = router;
 
 
