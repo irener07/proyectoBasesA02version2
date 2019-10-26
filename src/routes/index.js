@@ -13,6 +13,10 @@ router.get('/airports/new', (req, res) => {
     res.render('airports/new-airport');
   });
 
+  
+  router.get('/airports/all', (req, res) => {
+    res.render('airports/all-airports');
+  });
 module.exports = router;
 
 
