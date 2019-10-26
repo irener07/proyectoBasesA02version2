@@ -1,18 +1,14 @@
 <div class="row">
-    {{#each airports}}
+    {{#each airline}}
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body align-items-center d-flex justify-content-center">
-                    <p>{{airportId}}</p> <a href="/airports/edit/{{_id}}"><i class="fas fa-edit"></i></a>
-                    <p>{{airportName}}</p>
+                    <p>{{airlineId}}</p> <a href="/airlines/edit/{{_id}}"><i class="fas fa-edit"></i></a>
+                    <p>{{airportId}}</p>
+                    <p>{{Name}}</p>
                     <p>{{country}}</p>
-                    <p>{{state}}</p>
-                    <p>{{airportAddress}}</p>
-                    <p>{{airportEmail}}</p>
-                    <p>{{airportTelephone}}</p>
-                    <p>{{airportWebP}}</p>
 
-                    <form action="/airports/delete/{{_id}}?_method=DELETE" method="POST">
+                    <form action="/airlines/delete/{{_id}}?_method=DELETE" method="POST">
                     <input type="hidden" name="_method" value="DELETE">
 
                     <button class="btn btn-danger btn-block btn-sm" type="submit">
@@ -26,7 +22,7 @@
         {{else}}
             <div class="card mx-auto">
                 <div class="card-body">
-                    <p class="lead">There are no airports yet.</p>
+                    <p class="lead">There are no airlines yet.</p>
                 </div> 
             </div>
     {{/each}}
