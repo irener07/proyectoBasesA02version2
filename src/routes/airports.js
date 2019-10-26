@@ -9,6 +9,8 @@ router.get('/airports/new-airport', (req, res) => {
     res.render('airports/new-airport');
 });
 
+
+//                      Creation of new airport
 router.post('/airports/new-airport', async (req, res) => {
     const {id, name, country, state, address, email, telephone, webPage}= req.body;
     const errors=[];
@@ -35,8 +37,18 @@ router.post('/airports/new-airport', async (req, res) => {
         const newAirport = new airports({id, name, country, state, address, email, telephone, webPage});
         await newAirport.save();
         req.flash('success_msg', 'Successful Registration');
-        res.redirect('/');
+        res.redirect('/airports');
     }
 });
+
+//                          Information of all airports and CRUD options
+router.get('/airports', async (req, res) => {
+    const airportsFound = await airports.find();
+    res.render('airports/all-airports.hbs', {airportsFound});
+});
+
+
+
+
 
 module.exports = router;
