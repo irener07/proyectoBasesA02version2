@@ -9,6 +9,10 @@ router.get('/clients/signUpClients', (req, res) => {
     res.render('clients/signUpClients');
   });
 
+router.get('/airports/new', (req, res) => {
+    res.render('airports/new-airport');
+  });
+
 module.exports = router;
 
 
