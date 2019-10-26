@@ -15,6 +15,8 @@
 
     <main class="container">
 
+        {{> messages }}
+        {{> errors }}
         {{{ body }}}
 
     </main>
@@ -31,7 +33,7 @@
 <script src="/javascript/countriesStates.js"></script>
 <script language="javascript">
     populateCountries("country", "state");
-    populateCountries("nacionality"); 
+    populateCountries("nationality"); 
 </script>
 </body>
 </html>

@@ -5,13 +5,17 @@ router.get('/', (req, res) => {
     res.send('Index');
 });
 
-router.get('/clients/signUpClients', (req, res) => {
-    res.render('clients/signUpClients');
-  });
+
+
+
+
+
+
+
 
 router.get('/airports/new', (req, res) => {
     res.render('airports/new-airport');
-  });
+});
 
   router.get('/employees/signUpEmployees', (req, res) => {
     res.render('employees/signUpEmployees');
