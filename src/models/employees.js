@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const bcrypt = require('bcryptjs');
 mongoose.set('useCreateIndex', true);
 
 const employeesSchema = new Schema({
     id: {
-        type: Number,
+        type: String,
         required: true, 
         unique: true
     },
@@ -17,7 +18,7 @@ const employeesSchema = new Schema({
         required: true
     },
     type: {
-        type: Object,
+        type: String,
         required: true
     },
     hiringDate: {
@@ -25,7 +26,7 @@ const employeesSchema = new Schema({
         default: Date.now
     },
     jobArea: {
-        type: Object,
+        type: String,
         required: true
     },
     email: {
@@ -37,5 +38,15 @@ const employeesSchema = new Schema({
         required: true
     }
 });
+
+employeesSchema.methods.encryptPassword=async(password) =>{
+    const salt= await bcrypt.genSalt(11);
+    const hash = bcrypt.hash(password,salt);
+    return hash;
+ };
+ 
+ employeesSchema.methods.matchPassword= async function(password){
+     return await bcrypt.compare(password, this.password);
+ };
 
 module.exports = mongoose.model("employees", employeesSchema);
