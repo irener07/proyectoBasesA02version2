@@ -52,6 +52,7 @@ app.use((req, res, next) => {
 app.use(require('./routes/index'));
 app.use(require('./routes/users'));
 app.use(require('./routes/clients'));
+app.use(require('./routes/airports'));
 app.use(express.static(__dirname + '/public'));
 
 app.use(router);
