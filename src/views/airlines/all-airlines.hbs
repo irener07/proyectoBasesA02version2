@@ -1,0 +1,29 @@
+<div class="row">
+    {{#each airline}}
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body align-items-center d-flex justify-content-center">
+                    <p>{{airlineId}}</p> <a href="/airlines/edit/{{_id}}"><i class="fas fa-edit"></i></a>
+                    <p>{{airportId}}</p>
+                    <p>{{Name}}</p>
+                    <p>{{country}}</p>
+
+                    <form action="/airlines/delete/{{_id}}?_method=DELETE" method="POST">
+                    <input type="hidden" name="_method" value="DELETE">
+
+                    <button class="btn btn-danger btn-block btn-sm" type="submit">
+                        Delete
+                    </button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        {{else}}
+            <div class="card mx-auto">
+                <div class="card-body">
+                    <p class="lead">There are no airlines yet.</p>
+                </div> 
+            </div>
+    {{/each}}
+</div>
