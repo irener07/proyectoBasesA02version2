@@ -2,8 +2,8 @@
     {{#each airports}}
         <div class="col-md-3">
             <div class="card">
-                <div class="card-body">
-                    <p>{{airportId}}</p>
+                <div class="card-body align-items-center d-flex justify-content-center">
+                    <p>{{airportId}}</p> <a href="#"><i class="fas fa-edit"></i></a>
                     <p>{{airportName}}</p>
                     <p>{{country}}</p>
                     <p>{{state}}</p>
@@ -11,7 +11,10 @@
                     <p>{{airportEmail}}</p>
                     <p>{{airportTelephone}}</p>
                     <p>{{airportWebP}}</p>
-                    
+                    <button class="btn btn-danger btn-block btn-sm">
+                        Delete
+                    </button>
+
                 </div>
             </div>
         </div>
