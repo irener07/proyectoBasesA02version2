@@ -9,19 +9,20 @@
 
 
 
-<div class="col-md-4 mx-auto">
+<div class="col-md-12 mx-60px">
     <div class="card">
-    <div class="card-header">
+    <div class="card-header align-items-center d-flex justify-content-center">
         <h3>New Airport</h3>
     </div>
-    <div class="card-body">
+    <div class="card-body align-items-center d-flex justify-content-center">
             <form action="/airports/new-airport" method="POST">
             <div class="form-group">
                 Name:
                     <input type="text" name="airportName"></br>
                 Select Country (with states):   
-                    <select id="countryC" name ="countryC"></select></br>
-                Select State: <select name ="stateC" id ="stateC"></select>  </br>
+                    <select id="countryC" name ="country"></select></br>
+                Select State: 
+                    <select name ="state" id ="stateC"></select>  </br>
                 Address:
                     <input type="text" name="airportAddress"></br>
                 Email:
