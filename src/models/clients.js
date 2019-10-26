@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const bcrypt = require('bcryptjs');
 mongoose.set('useCreateIndex', true);
 
 const clientPhoneNumbersSchema = new Schema({
@@ -13,7 +14,7 @@ module.exports = mongoose.model("clientsPhoneNumbers",clientPhoneNumbersSchema);
 
 const clientsSchema = new Schema({
     id: {
-        type: Number,
+        type: String,
         required: true, 
         unique: true
     },
@@ -53,10 +54,20 @@ const clientsSchema = new Schema({
         type: String,
         required: true, 
     },
-    clientTelephones: {
-        type: Object,
+    telephone: {
+        type: String,
         required: true,
     }
 });
+
+clientsSchema.methods.encryptPassword=async(password) =>{
+   const salt= await bcrypt.genSalt(11);
+   const hash = bcrypt.hash(password,salt);
+   return hash;
+};
+
+clientsSchema.methods.matchPassword= async function(password){
+    return await bcrypt.compare(password, this.password);
+};
 
 module.exports = mongoose.model("clients",clientsSchema);
