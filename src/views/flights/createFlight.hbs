@@ -1,0 +1,55 @@
+{{#each errors}}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{text}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">6times</span>
+        </button>
+    </div>
+{{/each}}
+
+
+
+<div class="col-md-4 mx-auto">
+    <div class="card">
+    <div class="card-header">
+        <h3>New Avaibable Flight</h3>
+    </div>
+     
+    <div class="card-body">
+            <form action="/flights/createFlight" method="POST">
+            <div class="form-group">
+                ID:
+                    <input type="text" name="flightId"></br>
+                Name:
+                    <input type="text" name="flightName"></br>
+                Origin:
+                    <input type="text" name="flightOrigin"></br>
+                Destination:
+                    <input type="text" name="flightDestination"></br>
+                
+                FALTA ITINERARIO
+                
+                FlightFeatures:
+                    <textarea name="flightFeatures"></textarea>
+
+                Select State: <select name ="flightStateC" id ="flightStateC">
+                    <option value="Ontime">OnTime</option>
+                    <option value="Delayed">Delayed</option>
+                    <option value="Canceled">Canceled</option>     
+                </select> </br> 
+
+                Capacity:
+                    <input type="text" name="flightCapacity"></br>
+                
+                  
+                
+            </div>
+            <div class="form-group">
+                <button class="bton btn-primary btn-block" type="submit">
+                    Save
+                </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
