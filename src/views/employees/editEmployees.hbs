@@ -1,0 +1,47 @@
+<div class="col-md-4 mx-auto">
+    <div class="card">
+        <div class="card-header">
+            <h3>Edit Employees</h3>
+        </div>
+        <div class="card-body">
+            <form action="/employees/modify-employee/{{employeeFound._id}}?_method=PUT" method="POST">
+            <input type="hidden" name="_method" value="PUT">
+            <div class="form-group">
+                ID:
+                    <input type="text" name="id" value="{{employeeFound.id}}"><br>
+                First Name:
+                    <input type="text" name="firstName" value="{{employeeFound.firstName}}"></br>
+                Last Name:
+                    <input type="text" name="lastName" value="{{employeeFound.lastName}}"></br>
+               
+                Select Type: <select name ="type" id ="type">
+                    <option value="Manager">Manager</option>
+                    <option value="Technical">Technical</option>
+                    <option value="Operator">Operator</option>     
+                </select> </br> 
+                
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="datetime-local" name="dateTime">
+                </div>
+
+                Select WorkDepartment: <select name ="jobArea" id ="jobArea">
+                    <option value="Counter">Counter</option>
+                    <option value="BoardingRooms">BoardingRooms</option>
+                    <option value="Load">Load</option>
+                    <option value="Maintenance">Maintenance</option>     
+                 </select>   </br>  
+                Email:
+                    <input type="text" name="email" value="{{employeeFound.email}}"></br>
+
+                
+            </div>
+            <div class="form-group">
+                <button class="bton btn-primary btn-block" type="submit">
+                    Save
+                </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

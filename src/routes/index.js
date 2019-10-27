@@ -83,19 +83,12 @@ router.get('/employees/signUpEmployees', (req, res) => {
     res.render('airports/all-airports');
   });
 
-  router.get('/flights/createFlight', (req, res) => {
-    res.render('flights/createFlight');
-  });
-
-  router.post('/flights/createFlight', (req, res) => {
-    res.render('flights/createFlight');
-  });
-
-  router.get('/airlines/createAirline', (req, res) => {
+router.get('/airlines/createAirline', (req, res) => {
     res.render('airlines/createAirline');
+});
+
+  router.get('/employees/moduleEmployees', (req, res) => {
+    res.render('employees/moduleEmployees');
   });
-
+  
 module.exports = router;
-
-
-
