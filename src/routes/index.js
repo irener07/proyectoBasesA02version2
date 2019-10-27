@@ -95,7 +95,8 @@ router.get('/employees/signUpEmployees', (req, res) => {
     res.render('airlines/createAirline');
   });
 
+  router.get('/employees/moduleEmployees', (req, res) => {
+    res.render('employees/moduleEmployees');
+  });
+  
 module.exports = router;
-
-
-

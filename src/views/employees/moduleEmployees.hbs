@@ -1,4 +1,5 @@
 <div class="row">
+<a href="/employees/signUpEmployees" class="btn btn-success btn-block btn-sm">New Employee</a>
 <table class="egt table {
     border-collapse: separate;
     border-spacing: 5px;
@@ -8,14 +9,12 @@
    
   <tr>
     <th scope="row">ID</th>
-    <th>Employee ID</th>
     <th>First Name</th>
     <th>Last Name</th>
     <th>Type</th>
     <th>Hiring Date</th>
     <th>Job Area</th>
     <th>Email</th>
-    <th>Password</th>
     <th></th>
     <th></th>
   </tr>
@@ -30,7 +29,6 @@
     <td>{{hiringDate}}</td>
     <td>{{jobArea}}</td>
     <td>{{email}}</td>
-    <td>{{password}}</td>
     <td>
         <form action="/employees/delete/{{_id}}?_method=DELETE" method="POST">
                 <input type="hidden" name="_method" value="DELETE">
@@ -49,7 +47,7 @@
             <div class="card mx-auto">
                 <div class="card-body">
                     <h4 class="lead">No employees have been found.</h4>
-                    <a href="/employees/signUpEmployees" class="btn btn-success btn-block">New Employee</a>
+                    <a href="/employees/signUpEmployees" class="btn btn-success btn-block">Register a New Employee</a>
                 </div> 
             </div>
     {{/each}}

@@ -3,6 +3,36 @@ const router = express.Router();
 const employees = require('../models/employees');
 const currentDate = Date.now;
 
+//                          Information of all employees and CRUD options
+router.get('/employees', async (req,res) => {
+    const employeesFound = await employees.find();
+    res.render('employees/moduleEmployees', {employeesFound});
+});
+
+
+router.get('/employees/modify/:id', async (req, res) => {
+    const employeeFound = await employees.findById(req.params.id);
+    res.render('employees/editEmployees', {employeeFound});
+});
+
+router.put('/employees/modify-employee/:id', async (req,res) => {
+    const {id, firstName, lastName, type, jobArea, email, password}= req.body;
+    await employees.findByIdAndUpdate(req.params.id, {
+        id, firstName, lastName, type, jobArea, email, password
+    });
+    res.redirect('/employees');
+});
+
+router.delete('/employees/delete/:id', async (req, res) => {
+    await employees.findByIdAndDelete(req.params.id);
+    res.redirect('/employees');
+});
+
+router.get('/employees/signUpEmployeees', (req, res) => {
+    res.render('employees/signUpEmployeees');
+});
+
+
 router.get('/employees/signUpEmployees', (req, res) => {
     res.render('employees/signUpEmployees');
   });
@@ -39,45 +69,12 @@ router.get('/employees/signUpEmployees', (req, res) => {
             newEmployee.password = await newEmployee.encryptPassword(password);
             await newEmployee.save();
             req.flash('success_msg', 'Successful Registration');
-            res.redirect('/employees/moduleEmployees');
+            res.redirect('/employees');
     
         } 
     
     });
 
-    router.get('/employees/moduleEmployees', (req, res) => {
-        res.render('employees/moduleEmployees');
-      });
-
-//                          Information of all airports and CRUD options
-router.get('/employees', async (req, res) => {
-    const employeesFound = await employees.find();
-    res.render('employees/moduleEmployees', {employeesFound});
-});
-
-
-//                          Update airport information 
-router.get('/employees/editEmployees/:id', async (req, res) => {
-    const employee = await employees.findById(req.params.id);
-    res.render('employees/editEmployees', {employee});
-});
-
-
-router.put('/employees/editEmployees/:id', async (req,res) => {
-    const {id, firstName, lastName, type, hiringDate, jobArea, email, password}= req.body;
-    await employees.findByIdAndUpdate(req.params.id, {
-        id, firstName, lastName, type, hiringDate, jobArea, email, password
-    });
-    res.redirect('/employees');
-});
-
-
-router.delete('/employees/delete/:id', async (req, res) => {
-    await employees.findByIdAndDelete(req.params.id);
-    res.redirect('/employees');
-});
-
-
-    
+  
 module.exports = router;
 
