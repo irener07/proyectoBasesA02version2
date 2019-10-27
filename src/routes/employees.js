@@ -48,6 +48,36 @@ router.get('/employees/signUpEmployees', (req, res) => {
     router.get('/employees/moduleEmployees', (req, res) => {
         res.render('employees/moduleEmployees');
       });
-       
+
+//                          Information of all airports and CRUD options
+router.get('/employees', async (req, res) => {
+    const employeesFound = await employees.find();
+    res.render('employees/moduleEmployees', {employeesFound});
+});
+
+
+//                          Update airport information 
+router.get('/employees/editEmployees/:id', async (req, res) => {
+    const employee = await employees.findById(req.params.id);
+    res.render('employees/editEmployees', {employee});
+});
+
+
+router.put('/employees/editEmployees/:id', async (req,res) => {
+    const {id, firstName, lastName, type, hiringDate, jobArea, email, password}= req.body;
+    await employees.findByIdAndUpdate(req.params.id, {
+        id, firstName, lastName, type, hiringDate, jobArea, email, password
+    });
+    res.redirect('/employees');
+});
+
+
+router.delete('/employees/delete/:id', async (req, res) => {
+    await employees.findByIdAndDelete(req.params.id);
+    res.redirect('/employees');
+});
+
+
+    
 module.exports = router;
 
