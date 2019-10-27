@@ -6,8 +6,27 @@ const airline = require('../models/airlines');
 
 
 
-router.get('/airlines', (req,res) => {
-    res.render('airlines/all-airlines');
+router.get('/airlines', async (req,res) => {
+    const airlinesFound = await airline.find();
+    res.render('airlines/all-airlines', {airlinesFound});
+});
+
+router.get('/airlines/modify/:id', async (req, res) => {
+    const airlineFound = await airline.findById(req.params.id);
+    res.render('airlines/edit-airline', {airlineFound});
+});
+
+router.put('/airlines/modify-airline/:id', async (req,res) => {
+    const {id, idAirport, name, countries}= req.body;
+    await airline.findByIdAndUpdate(req.params.id, {
+        id, idAirport, name, countries
+    });
+    res.redirect('/airlines');
+});
+
+router.delete('/airlines/delete/:id', async (req, res) => {
+    await airline.findByIdAndDelete(req.params.id);
+    res.redirect('/airlines');
 });
 
 router.get('/airlines/new-airline', (req, res) => {
@@ -17,7 +36,7 @@ router.get('/airlines/new-airline', (req, res) => {
 router.post('/airlines/new-airline', async (req, res) => {
     const {id, idAirport, name, countries}= req.body;
     const errors=[];
-    if(id=='' || firstName=='' || lastName=='' || address=='' || email=='' || password=='' || telephone==''){
+    if(id=='' || idAirport=='' || name=='' || countries==''){
         errors.push({text: 'Please, Insert the Data'});
     }
     if(errors.length>0){
