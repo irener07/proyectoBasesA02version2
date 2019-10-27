@@ -49,6 +49,7 @@ app.use(require('./routes/employees'));
 app.use(require('./routes/clients'));
 app.use(require('./routes/airports'));
 app.use(require('./routes/flights'));
+app.use(require('./routes/airlines'));
 app.use(express.static(__dirname + '/public'));
 
 app.use(router);

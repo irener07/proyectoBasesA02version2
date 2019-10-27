@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 mongoose.set('useCreateIndex', true);
 
+
 const airlinesSchema = new Schema({
     id: {
         type: Number,
@@ -17,7 +18,7 @@ const airlinesSchema = new Schema({
         required: true
     },
     countries: {
-        type: Object,
+        type: String,
         required: true
     }
 });

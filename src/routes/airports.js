@@ -43,7 +43,27 @@ router.post('/airports/new-airport', async (req, res) => {
 //                          Information of all airports and CRUD options
 router.get('/airports', async (req, res) => {
     const airportsFound = await airports.find();
-    res.render('airports/all-airports.hbs', {airportsFound});
+    res.render('airports/all-airports', {airportsFound});
 });
+
+//                          Update airport information 
+router.get('/airports/modify/:id', async (req, res) => {
+    const airport = await airports.findById(req.params.id);
+    res.render('airports/edit-airports', {airport});
+});
+
+router.put('/airports/modify-airport/:id', async (req,res) => {
+    const {id, name, country, state, address, email, telephone, webPage}= req.body;
+    await airports.findByIdAndUpdate(req.params.id, {
+        id, name, country, state, address, email, telephone, webPage
+    });
+    res.redirect('/airports');
+});
+
+router.delete('/airports/delete/:id', async (req, res) => {
+    await airports.findByIdAndDelete(req.params.id);
+    res.redirect('/airports');
+});
+
 
 module.exports = router;
