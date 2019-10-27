@@ -4,7 +4,8 @@ const airlines = require('../models/airlines');
 
 router.get('/flights/createFlight', async (req, res) => {
     const airlinesFound = await airlines.find();
-    res.render('flights/createFlight', {airlinesFound});
+    console.log(airlinesFound);
+    res.render('flights/createFlight',{airlinesFound});
 });
 
 router.post('/flights/createFlight', async (req, res) => {
@@ -34,5 +35,7 @@ router.post('/flights/createFlight', async (req, res) => {
     } */
 
 });
+
+
 
 module.exports = router;
