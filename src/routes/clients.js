@@ -46,4 +46,9 @@ router.get('/clients/moduleClients', (req, res) => {
     res.render('clients/moduleClients');
 });
 
+router.get('/clients/mainModule', (req, res) => {
+    res.render('clients/mainModule');
+});
+
+
 module.exports = router;
