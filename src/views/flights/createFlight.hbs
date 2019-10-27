@@ -1,3 +1,4 @@
+<div class="row">
 <div class="col-md-4 mx-auto">
     <div class="card">
     <div class="card-header">
@@ -11,17 +12,18 @@
                 </div>
                 <div class="form-group">
                     <label>Airline</label>
-                    {{#each airportsFound}}
-                        <select name="idAirline" id="idAirline" value={{id}}>{{name}}</select>
+                    <select name="idAirline" id="idAirline"></select>
+                    {{#each airlinesFound}}
+                        <option value={{name}}></option>
                     {{/each}}
                 </div>
                 <div class="form-group">
                     <label>Origin</label>
-                    <select name="origin" id="origin" value={{origin}}></select>
+                    <select name="origin" id="origin"></select>
                 </div>
                 <div class="form-group">
                     <label>Destination</label>
-                    <select name="destination" id="destination" value={{destination}}></select>
+                    <select name="destination" id="destination"></select>
                 </div>
                 <div class="form-group">
                     <label>Flight Features</label>
@@ -63,4 +65,5 @@
             </form>
         </div>
     </div>
+</div>
 </div>
