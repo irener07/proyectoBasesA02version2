@@ -79,4 +79,9 @@ router.post('/clients/purchasesClients', async (req, res) => {
     }
 });
 
+router.get('/clients/mainModule', (req, res) => {
+    res.render('clients/mainModule');
+});
+
+
 module.exports = router;

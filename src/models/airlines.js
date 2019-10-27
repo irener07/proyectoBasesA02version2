@@ -18,7 +18,7 @@ const airlinesSchema = new Schema({
         required: true
     },
     countries: {
-        type: String,
+        type: Array,
         required: true
     }
 });
