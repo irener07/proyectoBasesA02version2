@@ -4,16 +4,18 @@
             <h3>Edit Airlines</h3>
         </div>
         <div class="card-body">
-            <form action="/airlines/edit-airlines/{{airline._id}}?_method=PUT" method="POST">
+            <form action="/airlines/modify-airline/{{airlineFound._id}}?_method=PUT" method="POST">
             <input type="hidden" name="_method" value="PUT">
             <div class="form-group">
+                ID:
+                    <input type="text" name="id" value="{{airlineFound.id}}"><br>
                 Airport ID:
-                    <input type="text" name="airportId" value="{{airline.id}}""></br>
+                    <input type="text" name="idAirport" value="{{airlineFound.id}}"></br>
                 Name:
-                    <input type="text" name="airlineName" value="{{airline.name}}""></br>
+                    <input type="text" name="name" value="{{airlineFound.name}}"></br>
 
-                Select Country: 
-                    <select id ="country" name ="country" >{{airport.name}}</select></br>
+                Countries: 
+                    <input type="text" name="countries" value="{{airlineFound.countries}}"></select></br>
             </div>
             <div class="form-group">
                 <button class="bton btn-primary btn-block" type="submit">

@@ -1,30 +1,49 @@
 <div class="row">
-    {{#each airline}}
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body align-items-center d-flex justify-content-center">
-                    <p>{{airlineId}}</p> <a href="/airlines/edit/{{_id}}"><i class="fas fa-edit"></i></a>
-                    <p>{{airportId}}</p>
-                    <p>{{Name}}</p>
-                    <p>{{country}}</p>
+<a href="/airlines/new-airline" class="btn btn-success btn-block btn-sm">New Airline</a>
+<table class="egt table {
+    border-collapse: separate;
+    border-spacing: 5px;
+    background: #000 url("gradient.gif") bottom left repeat-x;
+    color: #fff;
+ }">
+   
+  <tr>
+    <th scope="row">ID</th>
+    <th>Aiport ID</th>
+    <th>Name</th>
+    <th>Countries</th>
+    <th></th>
+    <th></th>
+  </tr>
+  
+    {{#each airlinesFound}}
 
-                    <form action="/airlines/delete/{{_id}}?_method=DELETE" method="POST">
-                    <input type="hidden" name="_method" value="DELETE">
-
-                    <button class="btn btn-danger btn-block btn-sm" type="submit">
-                        Delete
-                    </button>
-                    </form>
-
-                </div>
-            </div>
-        </div>
+  <tr>
+    <th>{{id}}</th>
+    <td>{{idAirport}}</td>
+    <td>{{name}}</td>
+    <td>{{countries}}</td>
+    <td>
+        <form action="/airlines/delete/{{_id}}?_method=DELETE" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <button class="btn btn-danger btn-block btn-sm" type="submit">
+                Delete
+                </button> 
+        </form>
+    </td>
+    <td>
+        <a href="/airlines/modify/{{_id}}" class="btn btn-primary btn-block btn-sm">
+        Modify
+        </a>
+    </td>
+  </tr>
         {{else}}
             <div class="card mx-auto">
                 <div class="card-body">
-                    <p class="lead">No airlines have been found.</p>
+                    <h4 class="lead">No airlines have been found.</h4>
                     <a href="/airlines/new-airline" class="btn btn-success btn-block">Register a New Airline</a>
                 </div> 
             </div>
     {{/each}}
+    </table>
 </div>
