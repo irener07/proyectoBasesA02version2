@@ -6,7 +6,7 @@ const currentDate = Date.now;
 //                          Information of all employees and CRUD options
 router.get('/employees', async (req,res) => {
     const employeesFound = await employees.find();
-    res.render('employees/moduleEmployees', {employeesFound});
+    res.render('employees/all-employees', {employeesFound});
 });
 
 
