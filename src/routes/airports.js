@@ -47,12 +47,4 @@ router.get('/airports', async (req, res) => {
     res.render('airports/all-airports.hbs', {airportsFound});
 });
 
-router.get('/airports/prueba', async (req, res) => {
-    const airportsFound = await airports.find();
-    res.render('airports/prueba.hbs', {airportsFound});
-});
-
-
-
-
 module.exports = router;
