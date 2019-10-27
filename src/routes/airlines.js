@@ -18,10 +18,22 @@ router.get('/airlines/modify/:id', async (req, res) => {
 
 router.put('/airlines/modify-airline/:id', async (req,res) => {
     const {id, idAirport, name, countries}= req.body;
+    const errors = [];
+    if(id=='' || idAirport=='' || name=='' || countries.length<1){
+        errors.push({text: 'Please, Insert the Data'});
+    }
+    if (countries==-1){
+        errors.push({text: 'Please Select a Country'});
+    }
+    if(errors.length>0){
+        res.render('airlines/new-airline',{errors, id, idAirport, name, countries});
+    }
+    else {
     await airline.findByIdAndUpdate(req.params.id, {
         id, idAirport, name, countries
     });
     res.redirect('/airlines');
+    }
 });
 
 router.delete('/airlines/delete/:id', async (req, res) => {
@@ -34,10 +46,14 @@ router.get('/airlines/new-airline', (req, res) => {
 });
 
 router.post('/airlines/new-airline', async (req, res) => {
+
     const {id, idAirport, name, countries}= req.body;
     const errors=[];
-    if(id=='' || idAirport=='' || name=='' || countries==''){
+    if(id=='' || idAirport=='' || name=='' || countries.length<1){
         errors.push({text: 'Please, Insert the Data'});
+    }
+    if (countries==-1){
+        errors.push({text: 'Please Select a Country'});
     }
     if(errors.length>0){
         res.render('airlines/new-airline',{errors, id, idAirport, name, countries});
