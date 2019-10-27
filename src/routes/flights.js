@@ -1,27 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const clients = require('../models/clients');
+const airlines = require('../models/airlines');
 
-
-
-router.get('/clients/signUpClients', (req, res) => {
-    res.render('clients/signUpClients');
+router.get('/flights/createFlight', async (req, res) => {
+    const airlinesFound = await airlines.find();
+    console.log(airlinesFound);
+    res.render('flights/createFlight',{airlinesFound});
 });
 
-router.post('/clients/signUpClients', async (req, res) => {
-    const {id, firstName, lastName, birthDate, nationality, country, state, address, email, password, telephone}= req.body;
+router.post('/flights/createFlight', async (req, res) => {
+    const {name, idAirline, origin, destination, flightFeatures, dateTime, restrictions, services, status, maximumCapacity, price}= req.body;
     const errors=[];
     console.log(req.body);
-    if(nationality==-1){
-        errors.push({text: 'Please, Select Nationality'});
-    }
-    if(country==-1){
-        errors.push({text: 'Please, Select Country'});
-    }
-    if(!state || state==-1){
-        errors.push({text: 'Please, Select State'});
-    }
-    if(id=='' || firstName=='' || lastName=='' || address=='' || email=='' || password=='' || telephone==''){
+    console.log(idAirline.id);
+
+/*     if(id=='' || firstName=='' || lastName=='' || address=='' || email=='' || password=='' || telephone==''){
         errors.push({text: 'Please, Insert the Data'});
     }
     if(errors.length>0){
@@ -39,11 +32,10 @@ router.post('/clients/signUpClients', async (req, res) => {
         await newClient.save();
         req.flash('success_msg', 'Successful Registration');
         res.redirect('/');
-    }
+    } */
+
 });
 
-router.get('/clients/moduleClients', (req, res) => {
-    res.render('clients/moduleClients');
-});
+
 
 module.exports = router;

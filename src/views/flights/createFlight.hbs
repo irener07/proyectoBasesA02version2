@@ -1,46 +1,78 @@
-
-
+<div class="row">
 <div class="col-md-4 mx-auto">
     <div class="card">
     <div class="card-header">
-        <h3>New Avaibable Flight</h3>
+        <h3>New Flight</h3>
     </div>
-     
     <div class="card-body">
             <form action="/flights/createFlight" method="POST">
-            <div class="form-group">
-                ID:
-                    <input type="text" name="flightId"></br>
-                Name:
-                    <input type="text" name="flightName"></br>
-                Origin:
-                    <input type="text" name="flightOrigin"></br>
-                Destination:
-                    <input type="text" name="flightDestination"></br>
-                
-                FALTA ITINERARIO
-                
-                FlightFeatures:
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="name" placeholder="Name">
+                </div>
+                 <div class="form-group">
+                    <label>Origin</label>
+                    <select name="origin" id="origin"></select>
+                </div>
+                <div class="form-group">
+                    <label>Destination</label>
+                    <select name="destination" id="destination"></select>
+                </div>
+
+                {{#each airlinesFound}}
+
+                <div class="form-group">
+                    <label>Airline</label>
+                    <select name="idAirline" id="idAirline" ></select>
+                    <option value={{airlinesFound.id}}>{{airlinesFound.name}}</option>
+                </div>
+
+                {{/each}}
+
+                <div class="form-group">
+                    <label>Flight Features</label>
                     <textarea name="flightFeatures"></textarea>
-
-                Select State: <select name ="flightStateC" id ="flightStateC">
-                    <option value="Ontime">OnTime</option>
-                    <option value="Delayed">Delayed</option>
-                    <option value="Canceled">Canceled</option>     
-                </select> </br> 
-
-                Capacity:
-                    <input type="text" name="flightCapacity"></br>
-                
-                  
-                
-            </div>
-            <div class="form-group">
-                <button class="bton btn-primary btn-block" type="submit">
-                    Save
-                </button>
-            </div>
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="datetime-local" name="dateTime">
+                </div>
+                <div class="form-group">
+                    <label>Restrictions</label>
+                    <input type="text" name="restrictions" placeholder="Restrictions">
+                </div>
+                <div class="form-group">
+                    <label>Services</label>
+                    <input type="text" name="services" placeholder="Services">
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name ="status" id ="status">
+                        <option value="Ontime">On Time</option>
+                        <option value="Delayed">Delayed</option>
+                        <option value="Canceled">Canceled</option>     
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Maximum Capacity</label>
+                    <input type="number" min="0" step="1" name="maximumCapacity">
+                </div>
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="number" min="0" name="price">
+                </div>
+                <div class="form-group">
+                    <button class="bton btn-primary btn-block" type="submit">
+                        Register Flight
+                    </button>
+                </div>
             </form>
         </div>
     </div>
 </div>
+</div>
+<script src="/javascript/countriesStates.js"></script>
+<script language="javascript"> 
+    populateCountries("origin"); 
+    populateCountries("destination"); 
+</script>
