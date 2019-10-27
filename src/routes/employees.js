@@ -39,11 +39,15 @@ router.get('/employees/signUpEmployees', (req, res) => {
             newEmployee.password = await newEmployee.encryptPassword(password);
             await newEmployee.save();
             req.flash('success_msg', 'Successful Registration');
-            res.redirect('/clients/signUpClients');
+            res.redirect('/employees/moduleEmployees');
     
         } 
     
-    }
-       );
+    });
+
+    router.get('/employees/moduleEmployees', (req, res) => {
+        res.render('employees/moduleEmployees');
+      });
+       
 module.exports = router;
 
