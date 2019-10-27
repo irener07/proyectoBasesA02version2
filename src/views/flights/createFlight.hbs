@@ -10,33 +10,35 @@
                     <label>Name</label>
                     <input type="text" name="name" placeholder="Name">
                 </div>
+
                  <div class="form-group">
                     <label>Origin</label>
                     <select name="origin" id="origin"></select>
                 </div>
+
                 <div class="form-group">
                     <label>Destination</label>
                     <select name="destination" id="destination"></select>
                 </div>
 
+                Select Airline: <select name ="idAirline" id ="idAirline">
                 {{#each airlinesFound}}
-
-                <div class="form-group">
-                    <label>Airline</label>
-                    <select name="idAirline" id="idAirline" ></select>
-                    <option value={{airlinesFound.id}}>{{airlinesFound.name}}</option>
+                    <option value={{id}}>{{name}}</option>
                 </div>
-
                 {{/each}}
+                </select>   </br> 
+                                
 
                 <div class="form-group">
                     <label>Flight Features</label>
                     <textarea name="flightFeatures"></textarea>
                 </div>
+
                 <div class="form-group">
                     <label>Date</label>
                     <input type="datetime-local" name="dateTime">
                 </div>
+
                 <div class="form-group">
                     <label>Restrictions</label>
                     <input type="text" name="restrictions" placeholder="Restrictions">
