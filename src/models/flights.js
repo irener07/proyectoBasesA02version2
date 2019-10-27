@@ -50,11 +50,9 @@ const flightsSchema = new Schema({
     },
     ticketsSold: {
         type: Number,
-        default: 0
     },
     seatNumber: {
         type: Number,
-        default: 0
     },
     price: {
         type: Number,

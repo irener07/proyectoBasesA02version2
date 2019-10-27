@@ -1,5 +1,55 @@
 const express = require('express');
 const router = express.Router();
+const airlines = require('../models/airlines');
+const flights = require('../models/flights');
+
+router.get('/flights/createFlight', async (req, res) => {
+    const airlinesFound = await airlines.find();
+    console.log(airlinesFound);
+    res.render('flights/createFlight',{airlinesFound});
+});
+
+router.post('/flights/createFlight', async (req, res) => {
+    const {numID, idAirline, name, origin, destination, 
+        itinerary, dateTime, restrictions, 
+        services, status, maximumCapacity,  tickectsSold, seatNumber, price}= req.body;
+    const errors=[];
+    console.log(req.body);
+    console.log(idAirline.id);
+
+    if(name=='' || origin=='' || destination=='' || idAirline=='' || itinerary=='' || dateTime=='' || 
+    status==''  || maximumCapacity=='' || price==''){
+        errors.push({text: 'Please, Insert the Data'});
+    }
+    if(errors.length>0){
+        res.render('flights/createFlight',{errors, name, origin, destination, idAirline, itinerary, dateTime, restrictions, 
+            services, status, maximumCapacity, price});
+    }
+    else{
+        const idC = await flights.findOne().sort({$natural:-1}).limit(1);
+        const numID = idC.id + 1;
+        const  tickectsSold = 0;
+        const seatNumber = 0;
+        console.log (numID);
+        const newFlight = new flights({numID, idAirline, name, origin, destination, 
+            itinerary, dateTime, restrictions, 
+            services, status, maximumCapacity,  tickectsSold, seatNumber, price});
+        
+        await newFlight.save();
+        req.flash('success_msg', 'Successful Registration');
+        res.redirect('/');
+    } 
+
+});
+
+
+
+module.exports = router;
+
+
+/*
+const express = require('express');
+const router = express.Router();
 const flights = require('../models/flights');
 const airlines = require('../models/airlines');
 
@@ -31,7 +81,6 @@ router.get('/flights/moduleFlights', (req, res) => {
 
 // CREAR UN VUELO
 router.get('/flights/createFlight', (req, res) => {
-    airlinesFound = airlines.find();
     res.render('flights/createFlight', {airlinesFound});
   });
 
@@ -70,3 +119,5 @@ router.post('/flights/createFlight', async (req, res) => {
 
 
 module.exports = router;
+
+*/
