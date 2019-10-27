@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
         } 
       }
     }
-    else if(type=="Employee"){
+    if(typeUser=="Employee"){
       const user = await employee.findOne({email: email});
       if(user){
         const match = await user.matchPassword(password);
@@ -52,7 +52,7 @@ router.post('/', async (req, res) => {
         } 
       }
     }
-    else if(type=="Manager"){
+    if(typeUser=="Manager"){
       const user = await employee.findOne({email: email});
       if(user){
         const match = await user.matchPassword(password);
@@ -61,7 +61,7 @@ router.post('/', async (req, res) => {
           if(type=="Manager"){
             dataUserConnected.typeUser="Manager";
             dataUserConnected.idUserConnected=user.id;
-            res.redirect('employees/moduleManager');
+            res.redirect('employees/moduleManagers');
           }
         } else{
           errors.push({text: 'The Password or Email or Type are Incorrect.'});
