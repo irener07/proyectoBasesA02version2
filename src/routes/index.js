@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
         } 
       }
     }
-    else if(type=="Employee"){
+    else if(typeUser=="Employee"){
       const user = await employee.findOne({email: email});
       if(user){
         const match = await user.matchPassword(password);
@@ -52,7 +52,7 @@ router.post('/', async (req, res) => {
         } 
       }
     }
-    else if(type=="Manager"){
+    else if(typeUser=="Manager"){
       const user = await employee.findOne({email: email});
       if(user){
         const match = await user.matchPassword(password);
