@@ -35,11 +35,7 @@ router.post('/', async (req, res) => {
         } 
       }
     }
-<<<<<<< HEAD
-    else if(typeUser=="Employee"){
-=======
     if(typeUser=="Employee"){
->>>>>>> c135b5c2ba2744ac70c31997cd05a1961060e8b3
       const user = await employee.findOne({email: email});
       if(user){
         const match = await user.matchPassword(password);
@@ -56,11 +52,7 @@ router.post('/', async (req, res) => {
         } 
       }
     }
-<<<<<<< HEAD
-    else if(typeUser=="Manager"){
-=======
     if(typeUser=="Manager"){
->>>>>>> c135b5c2ba2744ac70c31997cd05a1961060e8b3
       const user = await employee.findOne({email: email});
       if(user){
         const match = await user.matchPassword(password);
