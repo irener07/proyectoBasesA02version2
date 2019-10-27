@@ -1,0 +1,92 @@
+<div class="row">
+    <div class="card">
+        <div class="card-header">
+            <h1>Search Flights</h1> 
+        </div>
+        <div class="card-body">
+            <form action="/clients/purchasesClients" method='POST'> 
+                <div class="form-group">
+                    <label>Origin</label>
+                    <select name="origin" id="origin"></select>
+                </div>
+                <div class="form-group">
+                    <label>Destination</label>
+                    <select name="destination" id="destination"></select>
+                </div>
+                <div class="form-group">
+                    <label>Range of Date</label>
+                    <input type="date" name="date01">
+                    <input type="date" name="date02">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Search
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/javascript/countriesStates.js"></script>
+<script language="javascript"> 
+    populateCountries("origin"); 
+    populateCountries("destination"); 
+</script>
+
+<div class="row">
+    <div class="card-header">
+        <h1>Flights</h1> 
+    </div>
+<table class="egt table {
+    border-collapse: separate;
+    border-spacing: 5px;
+    background: #000 url("gradient.gif") bottom left repeat-x;
+    color: #fff;
+ }">
+   
+  <tr>
+    <th scope="row">ID</th>
+    <th>Airline</th>
+    <th>Name</th>
+    <th>Origin</th>
+    <th>Destination</th>
+    <th>Itinerary</th>
+    <th>Date</th>
+    <th>Restrictions</th>
+    <th>Services</th>
+    <th>Status</th>
+    <th>Price</th>
+    <th></th>
+  </tr>
+  
+    {{#each flightsFound}}
+
+  <tr>
+    <th>{{id}}</th>
+    <th>{{idAirlines}}</th>
+    <td>{{name}}</td>
+    <td>{{origin}}</td>
+    <td>{{destination}}</td>
+    <td>{{itinerary}}</td>
+    <td>{{dateTime}}</td>
+    <td>{{restrictions}}</td>
+    <td>{{services}}</td>
+    <td>{{status}}</td>
+    <td>${{price}}</td>
+    <td>
+        <form >
+            {{!-- <input type="hidden" name="_method" value="DELETE"> --}}
+            <button class="btn btn-primary btn-block btn-sm" type="submit">Buy</button> 
+        </form>
+    </td>
+  </tr>
+        {{else}}
+            <div class="card mx-auto">
+                <div class="card-body">
+                    <h4 class="lead">No Flights have been found.</h4>
+                </div> 
+            </div>
+    {{/each}}
+    </table>
+</div>
