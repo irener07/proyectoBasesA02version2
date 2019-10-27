@@ -11,9 +11,6 @@ const bodyParser = require('body-parser');
 const bodyParserJSON = bodyParser.json();
 const bodyParserURLEncoded = bodyParser.urlencoded({extended: true});
 const flash = require('connect-flash');
-const passport = require('passport');
-
-// require('./configuration/passport');
 
 module.exports = router;
 
@@ -37,8 +34,6 @@ app.use(session({
   saveUninitialized: true
 }));
 
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(flash());
 
 app.use((req, res, next) => {
@@ -51,7 +46,6 @@ app.use((req, res, next) => {
 
 app.use(require('./routes/index'));
 app.use(require('./routes/employees'));
-app.use(require('./routes/users'));
 app.use(require('./routes/clients'));
 app.use(require('./routes/airports'));
 app.use(express.static(__dirname + '/public'));

@@ -42,4 +42,8 @@ router.post('/clients/signUpClients', async (req, res) => {
     }
 });
 
+router.get('/clients/moduleClients', (req, res) => {
+    res.render('clients/moduleClients');
+});
+
 module.exports = router;
