@@ -32,28 +32,26 @@
     <td>{{webPage}}</td>
     <td>
         <form action="/airports/delete/{{_id}}?_method=DELETE" method="POST">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button class="btn btn-danger btn-block btn-sm" type="submit">
-                        Delete
-                    </button> 
+                <input type="hidden" name="_method" value="DELETE">
+                <button class="btn btn-danger btn-block btn-sm" type="submit">
+                Delete
+                </button> 
         </form>
     </td>
     <td>
-        <form action="/airports/delete/{{_id}}?_method=MODIFY" method="POST">
-                    <input type="hidden" name="_method" value="MODIFY">
-                    <button class="btn btn-primary btn-block btn-sm" type="submit">
-                        Modify
-                    </button>
-        </form>
+        <a href="/airports/modify/{{_id}}" class="btn btn-primary btn-block btn-sm">
+        Modify
+        </a>
     </td>
   </tr>
         {{else}}
             <div class="card mx-auto">
                 <div class="card-body">
-                    <p class="lead">No airports have been found.</p>
-                    <a href="/airports/new-airport.hbs"></a>
+                    <h4 class="lead">No airports have been found.</h4>
+                    <a href="/airports/new-airport" class="btn btn-success btn-block">Register a New Airport</a>
                 </div> 
             </div>
     {{/each}}
     </table>
 </div>
+

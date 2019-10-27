@@ -4,23 +4,25 @@
             <h3>Edit Airport</h3>
         </div>
         <div class="card-body">
-            <form action="/airports/edit-airports/{{airport._id}}?_method=PUT" method="POST">
+            <form action="/airports/modify-airport/{{airport._id}}?_method=PUT" method="POST">
             <input type="hidden" name="_method" value="PUT">
             <div class="form-group">
+                ID:
+                    <input type="text" name="id" value="{{airport.id}}"></br>
                 Name:
-                    <input type="text" name="airportName" value="{{airport.name}}"></br>
+                    <input type="text" name="name" value="{{airport.name}}"></br>
                 Select Country (with states):   
-                    <select id="countryC" name ="country value="{{airport.country}}"></select></br>
+                    <select id="country" name ="country" value="{{airport.country}}"></select></br>
                 Select State: 
-                    <select name ="state" id ="stateC">{{airport.state}}</select>  </br>
+                    <select name ="state" id ="state" value="{{airport.state}}"></select>  </br>
                 Address:
-                    <input type="text" name="airportAddress value="{{airport.address}}"></br>
+                    <input type="text" name="address" value="{{airport.address}}"></br>
                 Email:
-                    <input type="email" name="airportEmail" value="{{airport.email}}></br>
+                    <input type="email" name="email" value="{{airport.email}}"></br>
                 Telephone:
-                    <input type="text" name="airportTelephone" value="{{airport.telephone}}></br>
+                    <input type="text" name="telephone" value="{{airport.telephone}}"></br>
                 Web Page:
-                    <input type="text" name="airportWebP" value="{{airport.webPage}}></br>
+                    <input type="text" name="webPage" value="{{airport.webPage}}"></br>
             </div>
             <div class="form-group">
                 <button class="bton btn-primary btn-block" type="submit">
