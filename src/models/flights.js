@@ -33,11 +33,11 @@ const flightsSchema = new Schema({
         required: true
     },
     restrictions: {
-        type: Object,
+        type: String,
         required: false,
     },
     services: {
-        type: Object,
+        type: String,
         required: false
     },
     status:{

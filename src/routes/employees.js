@@ -7,7 +7,15 @@ router.get('/employees/signUpEmployees', (req, res) => {
     res.render('employees/signUpEmployees');
   });
 
-  router.post('/employees/signUpEmployees', async (req, res) => {
+router.get('/employees/moduleEmployees', (req, res) => {
+    res.render('employees/moduleEmployees');
+});
+
+router.get('/employees/moduleManagers', (req, res) => {
+    res.render('employees/moduleManagers');
+});
+
+router.post('/employees/signUpEmployees', async (req, res) => {
       const { id, firstName, lastName, type, jobArea, email, password }= req.body;
       const errors=[];
       console.log(req.body);

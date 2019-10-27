@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const clients = require('../models/clients');
+const airlines = require('../models/airlines');
 
-
-
-router.get('/clients/signUpClients', (req, res) => {
-    res.render('clients/signUpClients');
+router.get('/flights/createFlight', async (req, res) => {
+    const airlinesFound = await airlines.find();
+    res.redirect('flights/createFlight', {airlinesFound});
 });
 
-router.post('/clients/signUpClients', async (req, res) => {
+/* router.post('/clients/signUpClients', async (req, res) => {
     const {id, firstName, lastName, birthDate, nationality, country, state, address, email, password, telephone}= req.body;
     const errors=[];
     console.log(req.body);
@@ -40,10 +39,6 @@ router.post('/clients/signUpClients', async (req, res) => {
         req.flash('success_msg', 'Successful Registration');
         res.redirect('/');
     }
-});
-
-router.get('/clients/moduleClients', (req, res) => {
-    res.render('clients/moduleClients');
-});
+}); */
 
 module.exports = router;
