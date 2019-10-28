@@ -10,12 +10,11 @@ router.get('/flights/createFlight', async (req, res) => {
 });
 
 router.post('/flights/createFlight', async (req, res) => {
-    const {numID, idAirline, name, origin, destination, 
+    const {name, origin, destination, idAirline, 
         itinerary, dateTime, restrictions, 
-        services, status, maximumCapacity,  tickectsSold, seatNumber, price}= req.body;
+        services, status, maximumCapacity, price}= req.body;
     const errors=[];
     console.log(req.body);
-    console.log(idAirline.id);
 
     if(name=='' || origin=='' || destination=='' || idAirline=='' || itinerary=='' || dateTime=='' || 
     status==''  || maximumCapacity=='' || price==''){
@@ -27,11 +26,11 @@ router.post('/flights/createFlight', async (req, res) => {
     }
     else{
         const idC = await flights.findOne().sort({$natural:-1}).limit(1);
-        const numID = idC.id + 1;
+        const id = idC.id + 1;
         const  tickectsSold = 0;
         const seatNumber = 0;
-        console.log (numID);
-        const newFlight = new flights({numID, idAirline, name, origin, destination, 
+        console.log (id);
+        const newFlight = new flights({id, idAirline, name, origin, destination, 
             itinerary, dateTime, restrictions, 
             services, status, maximumCapacity,  tickectsSold, seatNumber, price});
         
