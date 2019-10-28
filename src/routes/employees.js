@@ -3,13 +3,13 @@ const router = express.Router();
 const employees = require('../models/employees');
 const currentDate = Date.now;
 
-//                          Information of all employees and CRUD options
+//              MOSTRAR EMPLEADOS
 router.get('/employees', async (req,res) => {
     const employeesFound = await employees.find();
-    res.render('employees/moduleEmployees', {employeesFound});
+    res.render('employees/all-employees', {employeesFound});
 });
 
-
+//              MODIFICAR EMPLEADOS
 router.get('/employees/modify/:id', async (req, res) => {
     const employeeFound = await employees.findById(req.params.id);
     res.render('employees/editEmployees', {employeeFound});
@@ -23,6 +23,7 @@ router.put('/employees/modify-employee/:id', async (req,res) => {
     res.redirect('/employees');
 });
 
+//              BORRAR EMPLEADOS
 router.delete('/employees/delete/:id', async (req, res) => {
     await employees.findByIdAndDelete(req.params.id);
     res.redirect('/employees');
