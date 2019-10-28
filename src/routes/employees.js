@@ -6,7 +6,7 @@ const currentDate = Date.now;
 //              MOSTRAR EMPLEADOS
 router.get('/employees', async (req,res) => {
     const employeesFound = await employees.find();
-    res.render('employees/moduleEmployees', {employeesFound});
+    res.render('employees/all-employees', {employeesFound});
 });
 
 //              MODIFICAR EMPLEADOS
