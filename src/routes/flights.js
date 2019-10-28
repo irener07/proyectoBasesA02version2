@@ -42,6 +42,31 @@ router.post('/flights/createFlight', async (req, res) => {
 });
 
 
+//              MOSTRAR VUELOS
+router.get('/flights', async (req,res) => {
+    const flightsFound = await flights.find();
+    res.render('employees/moduleFlights', {flightsFound});
+});
+
+
+//              MODIFICAR VUELOS
+router.get('/flights/modify/:id', async (req, res) => {
+    const flightFound = await flights.findById(req.params.id);
+    res.render('flights/editFlights', {flightFound});
+});
+
+router.put('/flights/modify-flight/:id', async (req,res) => {
+    const {id, idAirline, name, origin, destination, 
+        itinerary, dateTime, restrictions, 
+        services, status, maximumCapacity,  tickectsSold, seatNumber, price}= req.body;
+    await flights.findByIdAndUpdate(req.params.id, {
+        id, idAirline, name, origin, destination, 
+            itinerary, dateTime, restrictions, 
+            services, status, maximumCapacity,  tickectsSold, seatNumber, price
+    });
+    res.redirect('/flights');
+});
+
 
 module.exports = router;
 
