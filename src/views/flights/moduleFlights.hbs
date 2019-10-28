@@ -1,0 +1,69 @@
+<div class="row">
+<a href="/flights/createFlight" class="btn btn-success btn-block btn-sm">New Flight</a>
+<table class="egt table {
+    border-collapse: separate;
+    border-spacing: 5px;
+    background: #000 url("gradient.gif") bottom left repeat-x;
+    color: #fff;
+ }">
+   
+  <tr>
+    <th scope="row">ID</th>
+    <th>Airline ID</th>
+    <th>Name</th>
+    <th>Origin</th>
+    <th>Destination</th>
+    <th>Itinerary</th>
+    <th>DateTime</th>
+    <th>Restrictions</th>
+    <th>Services</th>
+    <th>Status</th>
+    <th>Maximium Capacity</th>
+    <th>Sold Tickets</th>
+    <th>Seat Number</th>
+    <th>Price</th>>
+    <th></th>
+    <th></th>
+  </tr>
+  
+    {{#each flightsFound}}
+
+  <tr>
+    <th>{{id}}</th>
+    <td>{{idAirline}}</td>
+    <td>{{name}}</td>
+    <td>{{origin}}</td>
+    <td>{{destination}}</td>
+    <td>{{itinerary}}</td>
+    <td>{{dateTime}}</td>
+    <td>{{restrictions}}</td>
+    <td>{{services}}</td>
+    <td>{{status}}</td>
+    <td>{{maximiumCapacity}}</td>
+    <td>{{ticketsSold}}</td>
+    <td>{{seatNumber}}</td>
+    <td>{{price}}</td>
+    <td>
+        <form action="/flights/delete/{{_id}}?_method=DELETE" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <button class="btn btn-danger btn-block btn-sm" type="submit">
+                Delete
+                </button> 
+        </form>
+    </td>
+    <td>
+        <a href="/flights/modify/{{_id}}" class="btn btn-primary btn-block btn-sm">
+        Modify
+        </a>
+    </td>
+  </tr>
+        {{else}}
+            <div class="card mx-auto">
+                <div class="card-body">
+                    <h4 class="lead">No flights have been found.</h4>
+                    <a href="/flights/createFlight" class="btn btn-success btn-block">Register a New Flight</a>
+                </div> 
+            </div>
+    {{/each}}
+    </table>
+</div> 

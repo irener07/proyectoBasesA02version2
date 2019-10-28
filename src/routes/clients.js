@@ -83,5 +83,36 @@ router.get('/clients/mainModule', (req, res) => {
     res.render('clients/mainModule');
 });
 
+router.get('/clients/confirmPurchase/:id', async (req, res) => {
+    const flights = await flights.findById(req.params.id);
+    dataUserConnected.idFlight=flights.id;
+    console.log(dataUserConnected.idFlight);
+    res.render('clients/confirmPurchase',{flights});
+});
+
+router.post('/clients/confirmPurchase/', async (req, res) => {
+    const {ticketsNumber, suitcases, observation}= req.body;
+    const errors=[];
+    console.log(req.body);
+    if(ticketsNumber=='' || suitcases=='' || observation==''){
+        errors.push({text: 'Please, Review the Data'});
+    }
+    if(errors.length>0){
+        res.render('clients/confirmPurchase',{errors, ticketsNumber, suitcases, observation});
+    }
+    else{
+        const flightsFound = await flights.find({origin:origin, destination:destination, dateTime: {
+            $gte: date01,
+            $lt: date02
+        }});
+        if (flightsFound.length<1){
+            errors.push({text: 'No Flights have been found.'});
+            res.render('clients/purchasesClients',{errors, origin, destination, date01, date02});
+        }
+        else{
+            res.render('clients/purchasesClients', {flightsFound});
+        }
+    }
+});
 
 module.exports = router;

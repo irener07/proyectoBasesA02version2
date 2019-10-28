@@ -22,7 +22,7 @@ const purchasesSchema = new Schema({
     },
     suitcases: {
         type: Number,
-        default: 0
+        required: true
     },
     observation:{
         type: String,
@@ -30,10 +30,10 @@ const purchasesSchema = new Schema({
     },
     status: {
         type: String,
-        default: "Bought"
+        required: true
     },
     seatNumber: {
-        type: Object,
+        type: Array,
         required: false,
     },
 });
