@@ -54,6 +54,22 @@ router.get('/airports/modify/:id', async (req, res) => {
 
 router.put('/airports/modify-airport/:id', async (req,res) => {
     const {id, name, country, state, address, email, telephone, webPage}= req.body;
+    const errors=[];
+
+    if(country==-1){
+        errors.push({text: 'Please, Select Country'});
+    }
+    if(!state || state==-1){
+        errors.push({text: 'Please, Select State'});
+    }
+    if(id=='' || name=='' || address=='' || email=='' || telephone=='' || webPage==''){
+        errors.push({text: 'Please, Insert the Data'});
+    }
+    if(errors.length>0){
+        //const airport = {id, name, country, state, address, email, telephone, webPage};
+        //res.render('airports/edit-airports',{errors,airport});
+        res.redirect('/airports/modify/:id')
+    }
     await airports.findByIdAndUpdate(req.params.id, {
         id, name, country, state, address, email, telephone, webPage
     });
