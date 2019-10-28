@@ -10,17 +10,11 @@ router.get('/flights/createFlight', async (req, res) => {
 });
 
 router.post('/flights/createFlight', async (req, res) => {
-    const ticketsSold= 0;
-    const seatNumber = 0;
-    const numID = idC.id + 1;
-    const  tickectsSold = 0;
-    const seatNumber = 0;
-    const {numID, idAirline, name, origin, destination, 
+    const {name, origin, destination, idAirline, 
         itinerary, dateTime, restrictions, 
-        services, status, maximumCapacity,  ticketsSold , seatNumber, price}= req.body;
+        services, status, maximumCapacity, price}= req.body;
     const errors=[];
     console.log(req.body);
-    console.log(idAirline.id);
 
     if(name=='' || origin=='' || destination=='' || idAirline=='' || itinerary=='' || dateTime=='' || 
     status==''  || maximumCapacity=='' || price==''){
@@ -32,8 +26,11 @@ router.post('/flights/createFlight', async (req, res) => {
     }
     else{
         const idC = await flights.findOne().sort({$natural:-1}).limit(1);
-        console.log (numID);
-        const newFlight = new flights({numID, idAirline, name, origin, destination, 
+        const id = idC.id + 1;
+        const  tickectsSold = 0;
+        const seatNumber = 0;
+        console.log (id);
+        const newFlight = new flights({id, idAirline, name, origin, destination, 
             itinerary, dateTime, restrictions, 
             services, status, maximumCapacity,  tickectsSold, seatNumber, price});
         
@@ -44,6 +41,31 @@ router.post('/flights/createFlight', async (req, res) => {
 
 });
 
+
+//              MOSTRAR VUELOS
+router.get('/flights', async (req,res) => {
+    const flightsFound = await flights.find();
+    res.render('employees/moduleFlights', {flightsFound});
+});
+
+
+//              MODIFICAR VUELOS
+router.get('/flights/modify/:id', async (req, res) => {
+    const flightFound = await flights.findById(req.params.id);
+    res.render('flights/editFlights', {flightFound});
+});
+
+router.put('/flights/modify-flight/:id', async (req,res) => {
+    const {id, idAirline, name, origin, destination, 
+        itinerary, dateTime, restrictions, 
+        services, status, maximumCapacity,  tickectsSold, seatNumber, price}= req.body;
+    await flights.findByIdAndUpdate(req.params.id, {
+        id, idAirline, name, origin, destination, 
+            itinerary, dateTime, restrictions, 
+            services, status, maximumCapacity,  tickectsSold, seatNumber, price
+    });
+    res.redirect('/flights');
+});
 
 
 module.exports = router;
