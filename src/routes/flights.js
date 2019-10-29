@@ -42,14 +42,14 @@ router.post('/flights/createFlight', async (req, res) => {
 });
 
 
-//              MOSTRAR VUELOS
+//              Show flights
 router.get('/flights', async (req,res) => {
     const flightsFound = await flights.find();
     res.render('employees/moduleFlights', {flightsFound});
 });
 
 
-//              MODIFICAR VUELOS
+//              Modify flights
 router.get('/flights/modify/:id', async (req, res) => {
     const flightFound = await flights.findById(req.params.id);
     res.render('flights/editFlights', {flightFound});
