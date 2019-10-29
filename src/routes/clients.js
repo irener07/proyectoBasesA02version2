@@ -68,14 +68,14 @@ router.post('/clients/purchasesClients', async (req, res) => {
             $gte: date01,
             $lt: date02
         }});
-        if (flightsFound==[]){
+        if (flightsFound.length<1){
             errors.push({text: 'Do not exist Flights this filters'});
             res.render('clients/purchasesClients',{errors, origin, destination, date01, date02});
             return;
         }
         else{
-            const dataUser = dataUserConnected.idUserConnected;
-            res.render('clients/purchasesClients', {flightsFound, dataUserConnected});
+            // const dataUser = dataUserConnected.idUserConnected;
+            res.render('clients/purchasesClients', {flightsFound});
         }
     }
 });
@@ -87,14 +87,15 @@ router.get('/clients/mainModule', (req, res) => {
 
 
 
-router.get('/clients/confirmPurchase/:idFlight/:idClient', async (req, res) => {
+router.get('/clients/confirmPurchase/:idFlight?&idUser=:dataUserConnected.idUserConnected', async (req, res) => {
     const flight = await flights.findById(req.params.idFlight);
     dataUserConnected.idFlight=flight.id;
     console.log(dataUserConnected.idFlight);
+    console.log(dataUserConnected.idUserConnected);
     res.render('clients/confirmPurchase',{dataUserConnected});
 });
 
-router.post('/clients/confirmPurchase/:idFlight/:idClient', async (req, res) => {
+router.post('/clients/confirmPurchase/:idFlight?&idUser=:dataUserConnected.idUserConnected', async (req, res) => {
     const {ticketsNumber, suitcases, observation}= req.body;
     const errors=[];
     console.log(req.body);
