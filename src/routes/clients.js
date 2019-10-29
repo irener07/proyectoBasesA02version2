@@ -135,7 +135,6 @@ router.put('/clients/checkIn-clients/:id', async (req,res) => {
         res.redirect('/clients/checkIn')
     }
     await purchases.findAndModify({query:{ idFlight: idFlight,idClient: idClient}, update: {state: "checked"}});
-    });
     req.flash('success_msg', 'Successful Check In');
     res.redirect('/clients/checkIn');
 });
