@@ -75,7 +75,7 @@ router.post('/clients/purchasesClients', async (req, res) => {
         }
         else{
             const dataUser = dataUserConnected.idUserConnected;
-            res.render('clients/purchasesClients', {flightsFound, dataUser});
+            res.render('clients/purchasesClients', {flightsFound, dataUserConnected});
         }
     }
 });
@@ -87,14 +87,14 @@ router.get('/clients/mainModule', (req, res) => {
 
 
 
-router.get('/clients/confirmPurchase/:idClient/:idFlight', async (req, res) => {
+router.get('/clients/confirmPurchase/:idFlight/:idClient', async (req, res) => {
     const flight = await flights.findById(req.params.idFlight);
     dataUserConnected.idFlight=flight.id;
     console.log(dataUserConnected.idFlight);
     res.render('clients/confirmPurchase',{dataUserConnected});
 });
 
-router.post('/clients/confirmPurchase/:idClient/:idFlight', async (req, res) => {
+router.post('/clients/confirmPurchase/:idFlight/:idClient', async (req, res) => {
     const {ticketsNumber, suitcases, observation}= req.body;
     const errors=[];
     console.log(req.body);
@@ -135,7 +135,6 @@ router.put('/clients/checkIn-clients/:id', async (req,res) => {
         res.redirect('/clients/checkIn')
     }
     await purchases.findAndModify({query:{ idFlight: idFlight,idClient: idClient}, update: {state: "checked"}});
-    });
     req.flash('success_msg', 'Successful Check In');
     res.redirect('/clients/checkIn');
 });
