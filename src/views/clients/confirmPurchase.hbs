@@ -5,7 +5,7 @@
         <h3>Confirm Purchase Flight {{dataUserConnected.idFlight}}</h3>
     </div>
     <div class="card-body">
-            <form action="/clients/confirmPurchase/{{dataUserConnected.idFlight}}&idUser=" method="POST">
+            <form action="/clients/confirmPurchase/{{dataUserConnected.idFlight}}" method="POST">
                 <div class="form-group">
                     <label>Tickets Number</label>
                     <input type="number" name="ticketsNumber" min="1" step="1" placeholder="Tickets Number">

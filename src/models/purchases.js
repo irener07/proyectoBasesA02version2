@@ -9,11 +9,11 @@ const purchasesSchema = new Schema({
         unique: true
     },
     idClient:{
-        type: Number,
+        type: String,
         required: true
     },
     idFlight:{
-        type: Number,
+        type: String,
         required: true
     },
     ticketsNumber: {

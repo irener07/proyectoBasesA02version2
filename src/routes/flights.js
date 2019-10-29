@@ -27,16 +27,16 @@ router.post('/flights/createFlight', async (req, res) => {
     else{
         const idC = await flights.findOne().sort({$natural:-1}).limit(1);
         const id = idC.id + 1;
-        const  tickectsSold = 0;
+        const ticketsSold = 0;
         const seatNumber = 0;
         console.log (id);
         const newFlight = new flights({id, idAirline, name, origin, destination, 
             itinerary, dateTime, restrictions, 
-            services, status, maximumCapacity,  tickectsSold, seatNumber, price});
+            services, status, maximumCapacity,  ticketsSold, seatNumber, price});
         
         await newFlight.save();
         req.flash('success_msg', 'Successful Registration');
-        res.redirect('/');
+        res.redirect('/employees/moduleManagers');
     } 
 
 });
@@ -45,7 +45,7 @@ router.post('/flights/createFlight', async (req, res) => {
 //              Show flights
 router.get('/flights', async (req,res) => {
     const flightsFound = await flights.find();
-    res.render('employees/moduleFlights', {flightsFound});
+    res.render('flights/moduleFlights', {flightsFound});
 });
 
 

@@ -87,7 +87,7 @@ router.get('/clients/mainModule', (req, res) => {
 
 
 
-router.get('/clients/confirmPurchase/:idFlight?&idUser=:dataUserConnected.idUserConnected', async (req, res) => {
+router.get('/clients/confirmPurchase/:idFlight', async (req, res) => {
     const flight = await flights.findById(req.params.idFlight);
     dataUserConnected.idFlight=flight.id;
     console.log(dataUserConnected.idFlight);
@@ -95,7 +95,7 @@ router.get('/clients/confirmPurchase/:idFlight?&idUser=:dataUserConnected.idUser
     res.render('clients/confirmPurchase',{dataUserConnected});
 });
 
-router.post('/clients/confirmPurchase/:idFlight?&idUser=:dataUserConnected.idUserConnected', async (req, res) => {
+router.post('/clients/confirmPurchase/:idFlight', async (req, res) => {
     const {ticketsNumber, suitcases, observation}= req.body;
     const errors=[];
     console.log(req.body);
@@ -107,15 +107,26 @@ router.post('/clients/confirmPurchase/:idFlight?&idUser=:dataUserConnected.idUse
     }
     else{
         const idC = await purchases.findOne().sort({$natural:-1}).limit(1);
-        const numID = idC.id + 1;
-        const idCl = dataUserConnected.idUserConnected;
-        const idFl = dataUserConnected.idFlight;
-        const sta = 'Bought';
+        const numID=0;
+        const idClient = dataUserConnected.idUserConnected;
+        const idFlight = dataUserConnected.idFlight;
+        const status = 'Bought';
         const numSeats = [];
-        const newPurchase = new purchases({numID, idCl, idFl, ticketsNumber, suitcases, observation, sta, numSeats});
-        await newPurchase.save();
-        req.flash('success_msg', 'Successful Purchase');
-        res.redirect('clients/purchasesClients');
+        if(!idC){
+            console.log('hola');
+            const id = 1;
+            const newPurchase = new purchases({id, idClient, idFlight, ticketsNumber, suitcases, observation, status, numSeats});
+            await newPurchase.save();
+            req.flash('success_msg', 'Successful Purchase');
+            res.redirect('/clients/purchasesClients');
+        }
+        else{
+            const id = idC.id + 1;
+            const newPurchase = new purchases({id, idClient, idFlight, ticketsNumber, suitcases, observation, status, numSeats});
+            await newPurchase.save();
+            req.flash('success_msg', 'Successful Purchase');
+            res.redirect('/clients/purchasesClients');
+        }
     }
 });
 
