@@ -64,7 +64,7 @@
 
   <tr>
     <th>{{id}}</th>
-    <th>{{idAirlines}}</th>
+    <th>{{idAirline}}</th>
     <td>{{name}}</td>
     <td>{{origin}}</td>
     <td>{{destination}}</td>
@@ -75,18 +75,11 @@
     <td>{{status}}</td>
     <td>${{price}}</td>
     <td>
-        <form >
-            {{!-- <input type="hidden" name="_method" value="DELETE"> --}}
+        <form action="/clients/confirmPurchase/{{dataUser}}/{{_id}}" method="GET">
             <button class="btn btn-primary btn-block btn-sm" type="submit">Buy</button> 
         </form>
     </td>
   </tr>
-        {{else}}
-            <div class="card mx-auto">
-                <div class="card-body">
-                    <h4 class="lead">No Flights have been found.</h4>
-                </div> 
-            </div>
     {{/each}}
     </table>
 </div>
