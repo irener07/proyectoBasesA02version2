@@ -2,10 +2,10 @@
 <div class="col-md-4 mx-auto">
     <div class="card">
     <div class="card-header">
-        <h3>Confirm Purchase Flight {{id}}</h3>
+        <h3>Confirm Purchase Flight {{dataUserConnected.idFlight}}</h3>
     </div>
     <div class="card-body">
-            <form action="/clients/confirmPurchase/" method="POST">
+            <form action="/clients/confirmPurchase/{{dataUserConnected.idFlight}}/{{dataUserConnected.idUserConnected}}" method="POST">
                 <div class="form-group">
                     <label>Tickets Number</label>
                     <input type="number" name="ticketsNumber" min="1" step="1" placeholder="Tickets Number">
