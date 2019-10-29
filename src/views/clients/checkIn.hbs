@@ -1,26 +1,71 @@
 <div class="row">
-    <div class="col-md-4 mx-auto">
-        <div class="card">
-            <div class="card-header align-items-center d-flex justify-content-center">
-               <h1>Check In</h1> 
-            </div>
-            <div class="card-body ">                   
-                <form action="/clients/checkIn-clients/{{client._id}}?_method=PUT" method="POST">
-                <input type="hidden" name="_method" value="PUT">
+    <div class="card">
+        <div class="card-header">
+            <h1>Check In</h1> 
+        </div>
+        <div class="card-body">
+            <form action="/clients/checkIn-clients" method='POST'> 
                 <div class="form-group">
-                    Id:  
-                        <input type="text" name="id" value="{{client.id}}" id="clientId"></br>
-                    <br>
-                    Flight Id:    
-                        <input type="text" name="flightId" value="{{flight.id}}" id="flightId"></br>
+                    <label>ID Client</label>
+                    <input type="number" name="clientId" value="{{client.id}}" id="clientId">
                 </div>
                 <div class="form-group">
-                    <button class="bton btn-primary btn-block" type="submit">
-                        Check In
+                    <label>ID Flight</label>
+                    <input type="number" name="flightId" value="{{flight.id}}" id="flightId">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Search
                     </button>
                 </div>
-                </form>
-            </div>
+            </form>
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="card-header">
+        <h1>Purchase</h1> 
+    </div>
+<table class="egt table {
+    border-collapse: separate;
+    border-spacing: 5px;
+    background: #000 url("gradient.gif") bottom left repeat-x;
+    color: #fff;
+ }">
+   
+  <tr>
+    <th scope="row">ID Purchase</th>
+    <th>ID Flight</th>
+    <th>Tickets Number</th>
+    <th>Suitcases</th>
+    <th>Observation</th>
+    <th>Price</th>
+    <th></th>
+  </tr>
+  
+    {{#each flightsFound}}
+
+  <tr>
+    <th>{{id}}</th>
+    <th>{{idAirline}}</th>
+    <td>{{name}}</td>
+    <td>{{origin}}</td>
+    <td>{{destination}}</td>
+    <td>{{itinerary}}</td>
+    <td>{{dateTime}}</td>
+    <td>{{restrictions}}</td>
+    <td>{{services}}</td>
+    <td>{{status}}</td>
+    <td>${{price}}</td>
+    <td>
+        <form action="/clients/confirmPurchase/{{_id}}" method="GET">
+            <button class="btn btn-primary btn-block btn-sm" type="submit">Buy</button> 
+        </form>
+    </td>
+  </tr>
+  {{/each}}
+    </table>
+    
+</div>
+

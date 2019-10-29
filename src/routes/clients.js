@@ -81,8 +81,6 @@ router.get('/clients/mainModule', (req, res) => {
     res.render('clients/mainModule');
 });
 
-
-
 router.get('/clients/confirmPurchase/:idFlight', async (req, res) => {
     const flight = await flights.findById(req.params.idFlight);
     dataUserConnected.idFlight=flight.id;
@@ -130,21 +128,40 @@ router.post('/clients/confirmPurchase/:idFlight', async (req, res) => {
     }
 });
 
-router.get('/clients/checkIn/:id', (req, res) => {
+router.get('/clients/checkIn', (req, res) => {
     res.render('clients/checkIn');
 });
 
-router.put('/clients/checkIn-clients/:id', async (req,res) => {
+router.post('/clients/checkIn-clients', async (req,res) => {
     const {clientId, flightId}= req.body;
     const errors=[];
+    const purchase = await purchases.findOne({idClient: clientId, idFlight: flightId});
+    if(flightId=='' || clientId==''){
+        errors.push({text: 'Please, Insert the Data Required'});
+    }
+    if(errors.length>0){
+        res.render('clients/checkIn', {errors});
+    }
+    else{
+        if (purchase.idClient!=clientId){
+            errors.push({text: 'The Purchase Corresponds to Another Customer'});
+            res.render('clients/checkIn', {errors});
+        }
+        res.render('clients/checkIn', {errors});
+    }
+});
 
+router.put('/clients/checkIn-clients', async (req,res) => {
+    const {clientId, flightId}= req.body;
+    const errors=[];
+    const purchase = await purchases.findOne({idClient: clientId, idFlight: flightId});
     if(flightId=='' || clientId==''){
         errors.push({text: 'Please, Insert the Data Required'});
     }
     if(errors.length>0){
         //const airport = {id, name, country, state, address, email, telephone, webPage};
         //res.render('airports/edit-airports',{errors,airport});
-        res.redirect('/clients/checkIn')
+        res.redirect('/clients/checkIn', )
     }
     await purchases.findAndModify({query:{ idFlight: idFlight,idClient: idClient}, update: {state: "checked"}});
     req.flash('success_msg', 'Successful Check In');
