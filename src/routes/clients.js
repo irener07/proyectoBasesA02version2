@@ -83,6 +83,10 @@ router.get('/clients/mainModule', (req, res) => {
     res.render('clients/mainModule');
 });
 
+router.get('/clients/checkIn', (req, res) => {
+    res.render('clients/checkIn');
+});
+
 router.get('/clients/confirmPurchase/:id', async (req, res) => {
     const flights = await flights.findById(req.params.id);
     dataUserConnected.idFlight=flights.id;
