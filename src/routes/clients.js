@@ -3,6 +3,7 @@ const router = express.Router();
 const clients = require('../models/clients');
 const flights = require('../models/flights');
 const purchases = require('../models/purchases');
+
 const dataUserConnected = require('../configuration/connectDB');
 
 
@@ -84,9 +85,7 @@ router.get('/clients/mainModule', (req, res) => {
     res.render('clients/mainModule');
 });
 
-router.get('/clients/checkIn', (req, res) => {
-    res.render('clients/checkIn');
-});
+
 
 router.get('/clients/confirmPurchase/:idClient/:idFlight', async (req, res) => {
     const flight = await flights.findById(req.params.idFlight);
@@ -118,5 +117,28 @@ router.post('/clients/confirmPurchase/:idClient/:idFlight', async (req, res) => 
         res.redirect('clients/purchasesClients');
     }
 });
+
+router.get('/clients/checkIn/:id', (req, res) => {
+    res.render('clients/checkIn');
+});
+
+router.put('/clients/checkIn-clients/:id', async (req,res) => {
+    const {clientId, flightId}= req.body;
+    const errors=[];
+
+    if(flightId=='' || clientId==''){
+        errors.push({text: 'Please, Insert the Data Required'});
+    }
+    if(errors.length>0){
+        //const airport = {id, name, country, state, address, email, telephone, webPage};
+        //res.render('airports/edit-airports',{errors,airport});
+        res.redirect('/clients/checkIn')
+    }
+    await purchases.findAndModify({query:{ idFlight: idFlight,idClient: idClient}, update: {state: "checked"}});
+    });
+    req.flash('success_msg', 'Successful Check In');
+    res.redirect('/clients/checkIn');
+});
+
 
 module.exports = router;
