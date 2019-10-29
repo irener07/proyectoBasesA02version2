@@ -14,7 +14,6 @@ router.get('/clients/signUpClients', (req, res) => {
 router.post('/clients/signUpClients', async (req, res) => {
     const {id, firstName, lastName, birthDate, nationality, country, state, address, email, password, telephone}= req.body;
     const errors=[];
-    console.log(req.body);
     if(nationality==-1){
         errors.push({text: 'Please, Select Nationality'});
     }
@@ -56,7 +55,6 @@ router.get('/clients/purchasesClients', (req, res) => {
 router.post('/clients/purchasesClients', async (req, res) => {
     const {origin, destination, date01, date02}= req.body;
     const errors=[];
-    console.log(req.body);
     if(origin==-1 || destination==-1 || origin==destination || date01>date02){
         errors.push({text: 'Please, Review the Data'});
     }
@@ -67,21 +65,19 @@ router.post('/clients/purchasesClients', async (req, res) => {
         const flightsFound = await flights.find({origin:origin, destination:destination, dateTime: {
             $gte: date01,
             $lt: date02
-        }});
+        }, $expr: { $gt: [ "$maximumCapacity", "$ticketsSold"]} });
         if (flightsFound.length<1){
             errors.push({text: 'Do not exist Flights this filters'});
             res.render('clients/purchasesClients',{errors, origin, destination, date01, date02});
             return;
         }
         else{
-            // const dataUser = dataUserConnected.idUserConnected;
             res.render('clients/purchasesClients', {flightsFound});
         }
     }
 });
 
 router.get('/clients/mainModule', (req, res) => {
-    console.log(dataUserConnected.idUserConnected);
     res.render('clients/mainModule');
 });
 
@@ -90,15 +86,19 @@ router.get('/clients/mainModule', (req, res) => {
 router.get('/clients/confirmPurchase/:idFlight', async (req, res) => {
     const flight = await flights.findById(req.params.idFlight);
     dataUserConnected.idFlight=flight.id;
-    console.log(dataUserConnected.idFlight);
-    console.log(dataUserConnected.idUserConnected);
     res.render('clients/confirmPurchase',{dataUserConnected});
 });
 
 router.post('/clients/confirmPurchase/:idFlight', async (req, res) => {
     const {ticketsNumber, suitcases, observation}= req.body;
     const errors=[];
-    console.log(req.body);
+    const idF = await flights.findOne({id: dataUserConnected.idFlight});
+    const tS = parseInt(idF.ticketsSold);
+    const mC = parseInt(idF.maximumCapacity);
+    const tN=parseInt(ticketsNumber)+tS;
+    if (tN>=mC){
+        errors.push({text: 'The Number of Tickets is Greater than the Maximum Capacity of the Flight'});
+    }
     if(ticketsNumber=='' || suitcases=='' || observation==''){
         errors.push({text: 'Please, Review the Data'});
     }
@@ -107,16 +107,15 @@ router.post('/clients/confirmPurchase/:idFlight', async (req, res) => {
     }
     else{
         const idC = await purchases.findOne().sort({$natural:-1}).limit(1);
-        const numID=0;
         const idClient = dataUserConnected.idUserConnected;
         const idFlight = dataUserConnected.idFlight;
         const status = 'Bought';
         const numSeats = [];
         if(!idC){
-            console.log('hola');
             const id = 1;
             const newPurchase = new purchases({id, idClient, idFlight, ticketsNumber, suitcases, observation, status, numSeats});
             await newPurchase.save();
+            await flights.findOneAndUpdate({id:idFlight}, {ticketsSold:ticketsSold+ticketsSold});
             req.flash('success_msg', 'Successful Purchase');
             res.redirect('/clients/purchasesClients');
         }
@@ -124,6 +123,7 @@ router.post('/clients/confirmPurchase/:idFlight', async (req, res) => {
             const id = idC.id + 1;
             const newPurchase = new purchases({id, idClient, idFlight, ticketsNumber, suitcases, observation, status, numSeats});
             await newPurchase.save();
+            await flights.findOneAndUpdate({id:idFlight}, {ticketsSold:tN});
             req.flash('success_msg', 'Successful Purchase');
             res.redirect('/clients/purchasesClients');
         }
