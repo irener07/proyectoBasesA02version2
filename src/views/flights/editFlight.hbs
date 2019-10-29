@@ -1,0 +1,82 @@
+<div class="col-md-4 mx-auto">
+    <div class="card">
+        <div class="card-header">
+            <h3>Edit Flights</h3>
+        </div>
+        <div class="card-body">
+            <form action="/flights/modify-flight/{{flightFound._id}}?_method=PUT" method="POST">
+            <input type="hidden" name="_method" value="PUT">
+            <div class="form-group">
+                
+                Select Airline: <select name ="idAirline" id ="idAirline">
+                {{#each airlinesFound}}
+                    <option value={{id}}>{{name}}</option>
+                </div>
+                {{/each}}
+                </select>   </br> 
+
+                Name:
+                    <input type="text" name="name" value="{{flightFound.name}}"></br>
+                
+                <div class="form-group">
+                    <label>Origin</label>
+                    <select name="origin" id="origin" value="{{flightFound.origin}}"></select>
+                </div>
+
+                <div class="form-group">
+                    <label>Destination</label>
+                    <select name="destination" id="destination"></select>
+                </div>
+
+                Itinerary:
+                    <input type="text" name="itinerary" value="{{flightFound.itinerary}}"></br>
+                
+                
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="datetime-local" name="dateTime">
+                </div>
+
+                Restrictions:
+                    <input type="text" name="restrictions" value="{{flightFound.restrictions}}"></br>
+
+                Services:
+                    <input type="text" name="services" value="{{flightFound.services}}"></br>
+
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name ="status" id ="status">
+                        <option value="Ontime">On Time</option>
+                        <option value="Delayed">Delayed</option>
+                        <option value="Canceled">Canceled</option>     
+                    </select>
+                </div>
+
+                Maximium Capacity:
+                    <input type="text" name="maximumCapacity" value="{{flightFound.maximumCapacity}}"></br>
+
+                Sold Tickets:
+                    <input type="text" name="ticketsSold" value="{{flightFound.ticketsSold}}"></br>
+
+                Current Seat Number:
+                    <input type="text" name="seatNumber" value="{{flightFound.seatNumber}}"></br>
+        
+                Price:
+                    <input type="text" name="price" value="{{flightFound.price}}"></br>
+
+            </div>
+            <div class="form-group">
+                <button class="bton btn-primary btn-block" type="submit">
+                    Save
+                </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="/javascript/countriesStates.js"></script>
+<script language="javascript"> 
+    populateCountries("origin"); 
+    populateCountries("destination"); 
+</script>
