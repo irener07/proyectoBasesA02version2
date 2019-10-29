@@ -3,6 +3,7 @@ const router = express.Router();
 const clients = require('../models/clients');
 const flights = require('../models/flights');
 const purchases = require('../models/purchases');
+
 const dataUserConnected = require('../configuration/connectDB');
 
 
@@ -67,28 +68,33 @@ router.post('/clients/purchasesClients', async (req, res) => {
             $gte: date01,
             $lt: date02
         }});
-        if (flightsFound.length<1){
-            errors.push({text: 'No Flights have been found.'});
+        if (flightsFound==[]){
+            errors.push({text: 'Do not exist Flights this filters'});
             res.render('clients/purchasesClients',{errors, origin, destination, date01, date02});
+            return;
         }
         else{
-            res.render('clients/purchasesClients', {flightsFound});
+            const dataUser = dataUserConnected.idUserConnected;
+            res.render('clients/purchasesClients', {flightsFound, dataUserConnected});
         }
     }
 });
 
 router.get('/clients/mainModule', (req, res) => {
+    console.log(dataUserConnected.idUserConnected);
     res.render('clients/mainModule');
 });
 
-router.get('/clients/confirmPurchase/:id', async (req, res) => {
-    const flights = await flights.findById(req.params.id);
-    dataUserConnected.idFlight=flights.id;
+
+
+router.get('/clients/confirmPurchase/:idFlight/:idClient', async (req, res) => {
+    const flight = await flights.findById(req.params.idFlight);
+    dataUserConnected.idFlight=flight.id;
     console.log(dataUserConnected.idFlight);
-    res.render('clients/confirmPurchase',{flights});
+    res.render('clients/confirmPurchase',{dataUserConnected});
 });
 
-router.post('/clients/confirmPurchase/', async (req, res) => {
+router.post('/clients/confirmPurchase/:idFlight/:idClient', async (req, res) => {
     const {ticketsNumber, suitcases, observation}= req.body;
     const errors=[];
     console.log(req.body);
@@ -96,21 +102,42 @@ router.post('/clients/confirmPurchase/', async (req, res) => {
         errors.push({text: 'Please, Review the Data'});
     }
     if(errors.length>0){
-        res.render('clients/confirmPurchase',{errors, ticketsNumber, suitcases, observation});
+        res.render('clients/confirmPurchase',{errors, ticketsNumber, suitcases, observation,dataUserConnected});
     }
     else{
-        const flightsFound = await flights.find({origin:origin, destination:destination, dateTime: {
-            $gte: date01,
-            $lt: date02
-        }});
-        if (flightsFound.length<1){
-            errors.push({text: 'No Flights have been found.'});
-            res.render('clients/purchasesClients',{errors, origin, destination, date01, date02});
-        }
-        else{
-            res.render('clients/purchasesClients', {flightsFound});
-        }
+        const idC = await purchases.findOne().sort({$natural:-1}).limit(1);
+        const numID = idC.id + 1;
+        const idCl = dataUserConnected.idUserConnected;
+        const idFl = dataUserConnected.idFlight;
+        const sta = 'Bought';
+        const numSeats = [];
+        const newPurchase = new purchases({numID, idCl, idFl, ticketsNumber, suitcases, observation, sta, numSeats});
+        await newPurchase.save();
+        req.flash('success_msg', 'Successful Purchase');
+        res.redirect('clients/purchasesClients');
     }
 });
+
+router.get('/clients/checkIn/:id', (req, res) => {
+    res.render('clients/checkIn');
+});
+
+router.put('/clients/checkIn-clients/:id', async (req,res) => {
+    const {clientId, flightId}= req.body;
+    const errors=[];
+
+    if(flightId=='' || clientId==''){
+        errors.push({text: 'Please, Insert the Data Required'});
+    }
+    if(errors.length>0){
+        //const airport = {id, name, country, state, address, email, telephone, webPage};
+        //res.render('airports/edit-airports',{errors,airport});
+        res.redirect('/clients/checkIn')
+    }
+    await purchases.findAndModify({query:{ idFlight: idFlight,idClient: idClient}, update: {state: "checked"}});
+    req.flash('success_msg', 'Successful Check In');
+    res.redirect('/clients/checkIn');
+});
+
 
 module.exports = router;

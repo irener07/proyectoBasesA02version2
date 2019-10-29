@@ -64,7 +64,7 @@
 
   <tr>
     <th>{{id}}</th>
-    <th>{{idAirlines}}</th>
+    <th>{{idAirline}}</th>
     <td>{{name}}</td>
     <td>{{origin}}</td>
     <td>{{destination}}</td>
@@ -75,11 +75,12 @@
     <td>{{status}}</td>
     <td>${{price}}</td>
     <td>
-        <form action="/clients/confirmPurchase" method="GET">
+        <form action="/clients/confirmPurchase/{{_id}}/{{#each dataUserConnected}}{{idUserConnected}}{{/each}}" method="GET">
             <button class="btn btn-primary btn-block btn-sm" type="submit">Buy</button> 
         </form>
     </td>
   </tr>
-    {{/each}}
+  {{/each}}
     </table>
+    
 </div>
