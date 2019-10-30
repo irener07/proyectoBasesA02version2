@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="card">
+        <div class="card-header">
+            <h1>Verify Check In</h1> 
+        </div>
+        <div class="card-body">
+            <form action="/employees/verifyCheckIn/search" method='POST'> 
+                <div class="form-group">
+                    <label>ID Client</label>
+                    <input type="number" name="clientId" min="0" step="1" id="clientId">
+                </div>
+                <div class="form-group">
+                    <label>ID Flight</label>
+                    <input type="number" name="flightId" min="0" step="1" id="flightId">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Search
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
