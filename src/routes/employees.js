@@ -3,8 +3,8 @@ const router = express.Router();
 const employees = require('../models/employees');
 const airlines = require('../models/airlines');
 const flights = require('../models/flights');
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const purchases = require('../models/purchases');
+const clients = require('../models/clients');
 const currentDate = Date.now;
 
 //              MOSTRAR EMPLEADOS
@@ -115,4 +115,36 @@ router.get('/employees/moduleManagers/airlineFlights', async (req, res) => {
     res.render('employees/airlinesFlights',{airlineFlights});
 });
 module.exports = router;
+
+router.get('/employees/moduleManagers/passengersTicketsRange', async (req, res) => {
+    const clientsFound = await clients.find();
+    const purchasesFound = await purchases.find();
+    const passengersTicketsRanges = new Array();
+    clientsFound.forEach( (client) => {
+        var min = 0;
+        var max = 0;
+        purchasesFound.forEach( (purchase) => {
+            if (client.id==purchase.idClient){
+                if (min==0 & max==0){
+                    min=purchase.ticketsNumber;
+                    max=purchase.ticketsNumber;
+                }
+                if (min>purchase.ticketsNumber){
+                    min=purchase.ticketsNumber;
+                }
+                if (max<purchase.ticketsNumber){
+                    max=purchase.ticketsNumber;
+                }
+            }
+        });
+        const passengersTicketRange = {
+            id: client.id,
+            name: client.firstName,
+            lastName: client.lastName,
+            range: [min,max]
+        };
+        passengersTicketsRanges.push(passengersTicketRange);
+    });
+    res.render('employees/passengersTicketsRange',{passengersTicketsRanges});
+});
 
