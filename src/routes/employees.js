@@ -306,21 +306,23 @@ router.post('/employees/moduleEmployees/registeredFlights', async (req,res) => {
         res.render('employees/registeredFlights',{flightsFound});
         return;
     }
-    if ((dateTimeBegin=='' && dateTimeEnd!='') || (dateTimeBegin!='' && dateTimeEnd=='')){
+    else if ((dateTimeBegin=='' && dateTimeEnd!='') || (dateTimeBegin!='' && dateTimeEnd=='')){
         errors.push({text:"Please fulfill both dates for range"});
     }
-    if ((firstName!='' && lastName=='') || (firstName=='' && lastName!='') ){
+    else if ((firstName!='' && lastName=='') || (firstName=='' && lastName!='') ){
         errors.push({text:"Please enter a full name"});
     }
     else if (status=='any' && firstName=='' && lastName==''){
         const flightsFound = await flights.find({dateTime:{$gte:dateTimeBegin,$lte:dateTimeEnd}});
         console.log(flightsFound);
         res.render('employees/registeredFlights',{flightsFound});
+        return;
     }
     else if (dateTimeBegin.length==0 && dateTimeEnd.length==0 && firstName=='' && lastName =='' && status!='any'){
         const flightsFound = await flights.find({status:status});
         console.log(flightsFound);
         res.render('employees/registeredFlights',{flightsFound});
+        return;
     }
     if (dateTimeBegin=='' && dateTimeEnd=='' && status=='any' && firstName!='' && lastName!=''){
         const clientFound = await clients.findOne({firstName:firstName,lastName:lastName});
@@ -339,7 +341,8 @@ router.post('/employees/moduleEmployees/registeredFlights', async (req,res) => {
     
     if (dateTimeBegin!='' & dateTimeEnd!='' & status!='any' & firstName=='' & lastName==''){
         const flightsFound = await flights.find({dateTime:{$gte:dateTimeBegin,$lte:dateTimeEnd},status:status});
-        res.render('employees/registeredFlights',{flightsFound});        
+        res.render('employees/registeredFlights',{flightsFound}); 
+        return;       
     }
     if (dateTimeBegin!='' & dateTimeEnd!='' & status=='any' & firstName!='' & lastName!=''){
         const clientFound = await clients.findOne({firstName:firstName,lastName:lastName});
@@ -354,6 +357,7 @@ router.post('/employees/moduleEmployees/registeredFlights', async (req,res) => {
             });
         });
         res.render('employees/registeredFlights',{flightsFound}); 
+        return;
     }
     if (status!='any' & firstName!='' & lastName!='' & dateTimeBegin=='' & dateTimeEnd==''){
         const clientFound = await clients.findOne({firstName:firstName,lastName:lastName});
@@ -367,10 +371,12 @@ router.post('/employees/moduleEmployees/registeredFlights', async (req,res) => {
                 }
             });
         });
-        res.render('employees/registeredFlights',{flightsFound});         
+        res.render('employees/registeredFlights',{flightsFound});  
+        return;     
     }
     if (errors.length>0){
         res.render('employees/registeredFlights',{errors,dateTimeBegin, dateTimeEnd, status, firstName, lastName});
+        return;
     }
 });
 
