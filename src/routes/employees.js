@@ -3,6 +3,8 @@ const router = express.Router();
 const employees = require('../models/employees');
 const airlines = require('../models/airlines');
 const flights = require('../models/flights');
+const purchases = require('../models/purchases');
+const clients = require('../models/clients');
 const currentDate = Date.now;
 
 //              MOSTRAR EMPLEADOS
@@ -83,56 +85,143 @@ router.post('/employees/signUpEmployees', async (req, res) => {
             res.redirect('/employees');
     
         } 
-    
-    });
+});
 
+router.get('/employees/boarding', (req, res) => {
+    res.render('employees/boardingEmployee');
+});
+    
+router.post('/employees/boarding/search', async (req,res) => {
+    const {clientId, flightId}= req.body;
+    const errors=[];
+    const purchase = await purchases.findOne({idClient: clientId, idFlight: flightId, status:'Checkin'});
+    if(flightId=='' || clientId==''){
+        errors.push({text: 'Please, Insert the Data Required'});
+    }
+    if(!purchase){
+        errors.push({text: 'Please, Review the Data. There are no Purchases with these Parameters'});
+    }
+    if(errors.length>0){
+        res.render('employees/boardingEmployee', {errors});
+    }
+    else{
+        res.render('employees/boardingEmployee', {purchase});
+    }
+});
+    
+router.post('/employees/boardingEmployee/:_id&:idClient&:idFlight', async (req,res) => {
+    const pur = await purchases.findById(req.params._id);
+    await purchases.findByIdAndUpdate(req.params._id, { status:'Used'});
+    req.flash('success_msg', 'Successful Check In. The Tickets Have Changed Status');
+    res.redirect('/employees/boarding');
+});
+
+router.get('/employees/allDataClients', async (req, res) => {
+    const allClients = await clients.find();
+    res.render('employees/consultAllClients', {allClients});
+});
+
+router.get('/employees/dataClient', (req, res) => {
+    res.render('employees/consultOneClient');
+});
+    
+router.post('/employees/dataClient/search', async (req,res) => {
+    const {clientId}= req.body;
+    const errors=[];
+    const client = await clients.findOne({id:clientId});
+    if(clientId==''){
+        errors.push({text: 'Please, Insert the Data Required'});
+    }
+    if(!client){
+        errors.push({text: 'Please, Review the Data. There are no Clients with these Parameters'});
+    }
+    if(errors.length>0){
+        res.render('employees/consultOneClient', {errors});
+    }
+    else{
+        res.render('employees/consultOneClient', {client});
+    }
+});
+
+router.get('/employees/verifyCheckIn', (req, res) => {
+    res.render('employees/verifyCheckIn');
+});
+    
+router.post('/employees/verifyCheckIn/search', async (req,res) => {
+    const {clientId, flightId}= req.body;
+    const errors=[];
+    const purchase = await purchases.findOne({idClient: clientId, idFlight: flightId, status:'Checkin'});
+    if(flightId=='' || clientId==''){
+        errors.push({text: 'Please, Insert the Data Required'});
+    }
+    if(!purchase){
+        errors.push({text: 'Please, Review the Data. There are no Purchases with these Parameters'});
+    }
+    if(errors.length>0){
+        res.render('employees/verifyCheckIn', {errors});
+    }
+    else{
+        req.flash('success_msg', 'The Tickets are in Check-In Status');
+        res.redirect('/employees/verifyCheckIn');
+    }
+});
   
 //                      Manager Reports
 router.get('/employees/moduleManagers/airlineFlights', async (req, res) => {
     const airlinesFound =  await airlines.find();
     const flightsFound = await flights.find();
     const airlineFlights = new Array();
-    const airlineFlight = new Schema({
-        airlineName: {
-            type: String
-        },
-        flightName: {
-            type: String
-        },
-        origin: {
-            type: String
-        },
-        destination: {
-            type: String
-        },
-        date: {
-            type: Date
-        },
-        tickets: {
-            type: Number
-        },
-        totalAmount: {
-            type: Number
-        }});
-    for (flight in flightsFound) {
-        for (airline in airlinesFound){
+    flightsFound.forEach( (flight) => {
+        airlinesFound.forEach((airline) =>{
             if (flight.idAirline==airline.id){
-                const totalAmount = parseInt(flight.ticketsSold)*parseInt(flight.price);
-                const newAirlineFlight = new airlineFlight(
-                    airline.name,
-                    flight.name,
-                    flight.origin,
-                    flight.destination,
-                    flight.date,
-                    parseInt(flight.ticketsSold),
+                const totalAmount = flight.ticketsSold*flight.price;
+                const newAirlineFlight = {
+                    airlineName: airline.name,
+                    flightName: flight.name,
+                    origin: flight.origin,
+                    destination: flight.destination,
+                    date: flight.dateTime,
+                    tickets: parseInt(flight.ticketsSold),
                     totalAmount
-                );
+                };
                 airlineFlights.push(newAirlineFlight);
 
             }
-        }
-    }
+        });
+    });
     res.render('employees/airlinesFlights',{airlineFlights});
 });
 module.exports = router;
+
+router.get('/employees/moduleManagers/passengersTicketsRange', async (req, res) => {
+    const clientsFound = await clients.find();
+    const purchasesFound = await purchases.find();
+    const passengersTicketsRanges = new Array();
+    clientsFound.forEach( (client) => {
+        var min = 0;
+        var max = 0;
+        purchasesFound.forEach( (purchase) => {
+            if (client.id==purchase.idClient){
+                if (min==0 & max==0){
+                    min=purchase.ticketsNumber;
+                    max=purchase.ticketsNumber;
+                }
+                if (min>purchase.ticketsNumber){
+                    min=purchase.ticketsNumber;
+                }
+                if (max<purchase.ticketsNumber){
+                    max=purchase.ticketsNumber;
+                }
+            }
+        });
+        const passengersTicketRange = {
+            id: client.id,
+            name: client.firstName,
+            lastName: client.lastName,
+            range: [min,max]
+        };
+        passengersTicketsRanges.push(passengersTicketRange);
+    });
+    res.render('employees/passengersTicketsRange',{passengersTicketsRanges});
+});
 
