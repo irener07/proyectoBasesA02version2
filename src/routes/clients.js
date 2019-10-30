@@ -38,6 +38,7 @@ router.post('/clients/signUpClients', async (req, res) => {
         }
         const newClient = new clients({id, firstName, lastName, birthDate, nationality, country, state, address, email, password, telephone});
         newClient.password = await newClient.encryptPassword(password);
+        console.log(newClient);
         await newClient.save();
         req.flash('success_msg', 'Successful Registration');
         res.redirect('/');
@@ -168,6 +169,112 @@ router.post('/clients/checkInClients/:_id&:idClient&:idFlight', async (req,res) 
     await purchases.findByIdAndUpdate(req.params._id, { status:'Checkin', seatNumber:numSeat});
     req.flash('success_msg', 'Successful Check In. Your seat numbers are:'+numSeat);
     res.redirect('/clients/checkIn');
+});
+
+
+
+router.get('/clients/flightsReport', (req, res) => {
+    res.render('clients/flightsReport');
+});
+
+router.post('/clients/flightsReport', async (req, res) => {
+    const {status, date01, date02}= req.body;
+    const idClient = dataUserConnected.idUserConnected;
+    const errors=[];
+    
+    if(date01>date02){
+        errors.push({text: 'Please, Review the Data'});
+    }
+    if(errors.length>0){
+        res.render('clients/flightsReport',{errors, status, date01, date02});
+    }
+    if(status!="Select Status" && date01.length==0 && date02.length==0 ){
+        const purchasesFound = await purchases.find({idClient:idClient});
+        const flightsFound = await flights.find({status:status})
+        const flightsRequests = new Array();
+        purchasesFound.forEach( (purchase) =>{
+            flightsFound.forEach( (flight) =>{
+                if (purchase.idFlight == flight.id){
+                    const newFlight = {
+                        idAirline: flight.idAirline,
+                        name: flight.name,
+                        origin: flight.origin,
+                        destination: flight.destination,
+                        itinerary: flight.itinerary,
+                        dateTime: flight.dateTime,
+                        restrictions: flight.restrictions,
+                        services: flight.services,
+                        status: flight.status,
+                        price: flight.price
+                    };
+                    flightsRequests.push(newFlight);
+                
+                }
+            });
+        });
+        res.render('clients/flightsReport', {flightsRequests});
+        return;
+
+    }
+    if(status=="Select Status" && date01.length>0 && date02.length>0 ){
+        const purchasesFound = await purchases.find({idClient:idClient});
+        const flightsFound = await flights.find({dateTime: {$gte: date01,$lt: date02}});
+        const flightsRequests = new Array();
+        purchasesFound.forEach( (purchase) =>{
+            flightsFound.forEach( (flight) =>{
+                if (purchase.idFlight == flight.id){
+                    const newFlight = {
+                        idAirline: flight.idAirline,
+                        name: flight.name,
+                        origin: flight.origin,
+                        destination: flight.destination,
+                        itinerary: flight.itinerary,
+                        dateTime: flight.dateTime,
+                        restrictions: flight.restrictions,
+                        services: flight.services,
+                        status: flight.status,
+                        price: flight.price
+                    };
+                    flightsRequests.push(newFlight);
+                
+                }
+            });
+        });
+        res.render('clients/flightsReport', {flightsRequests});
+        return;
+        
+    }
+    else{
+        const purchasesFound = await purchases.find({idClient:idClient});
+        const flightsFound = await flights.find({status:status, dateTime: {$gte: date01,$lt: date02}});       
+        const flightsRequests = new Array();
+        purchasesFound.forEach( (purchase) =>{
+            flightsFound.forEach( (flight) =>{
+                if (purchase.idFlight == flight.id){
+                    const newFlight = {
+                        idAirline: flight.idAirline,
+                        name: flight.name,
+                        origin: flight.origin,
+                        destination: flight.destination,
+                        itinerary: flight.itinerary,
+                        dateTime: flight.dateTime,
+                        restrictions: flight.restrictions,
+                        services: flight.services,
+                        status: flight.status,
+                        price: flight.price
+                    };
+                    flightsRequests.push(newFlight);
+                
+                }
+            });
+        });
+        
+        res.render('clients/flightsReport',{flightsRequests});
+        return;
+       
+       
+    }
+    
 });
 
 

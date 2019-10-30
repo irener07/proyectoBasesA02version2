@@ -12,6 +12,7 @@ const bodyParserJSON = bodyParser.json();
 const bodyParserURLEncoded = bodyParser.urlencoded({extended: true});
 const flash = require('connect-flash');
 
+
 module.exports = router;
 
 app.use(bodyParserJSON);
@@ -47,9 +48,11 @@ app.use((req, res, next) => {
 app.use(require('./routes/index'));
 app.use(require('./routes/employees'));
 app.use(require('./routes/clients'));
+//app.use(require('./routes/consults'));
 app.use(require('./routes/airports'));
 app.use(require('./routes/flights'));
 app.use(require('./routes/airlines'));
+app.use(require('./routes/consults'));
 app.use(express.static(__dirname + '/public'));
 
 app.use(router);

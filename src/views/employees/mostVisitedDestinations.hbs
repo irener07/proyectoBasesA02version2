@@ -1,31 +1,26 @@
 <div class="row">
-<a href="/employees/signUpEmployees" class="btn btn-success btn-block btn-sm">New Employee</a>
+<div class="mx-auto">
+    <h3>Most Visited Destinations</h3>
+</div>
 <table class="egt table {
     border-collapse: separate;
     border-spacing: 5px;
     background: #000 url("gradient.gif") bottom left repeat-x;
     color: #fff;
  }">
-   
-  <tr>
-    <th scope="row">Destination</th>
-    <th>First Name</th>
-    <th>Quantity of Sold Tickets</th>
-    <th></th>
-    <th></th>
-  </tr>
-  
-    {{#each employeesFound}}
 
-  <tr>
-    <th>{{id}}</th>
-    <td>{{firstName}}</td>
-    <td>{{lastName}}</td>
-    <td>
+    <tr>
+    <th scope="row">Destinations</th>
+    <th>Visitors</th>
+    </tr>
 
-    </td>
-    <td>
-    </td>
+        {{#each foundResults}}
+
+    <tr>
+        <td>{{destinationName}}</td>
+        <td>{{visitors}}</td>
+    </tr>
     {{/each}}
-    </table>
+
+</table>
 </div>
