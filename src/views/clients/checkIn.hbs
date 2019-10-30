@@ -7,11 +7,11 @@
             <form action="/clients/checkIn-clients" method='POST'> 
                 <div class="form-group">
                     <label>ID Client</label>
-                    <input type="number" name="clientId" value="{{client.id}}" id="clientId">
+                    <input type="number" name="clientId" min="0" step="1" id="clientId">
                 </div>
                 <div class="form-group">
                     <label>ID Flight</label>
-                    <input type="number" name="flightId" value="{{flight.id}}" id="flightId">
+                    <input type="number" name="flightId" min="0" step="1" id="flightId">
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block">
@@ -23,7 +23,10 @@
     </div>
 </div>
 
+
+{{#if purchase}}
 <div class="row">
+
     <div class="card-header">
         <h1>Purchase</h1> 
     </div>
@@ -32,40 +35,33 @@
     border-spacing: 5px;
     background: #000 url("gradient.gif") bottom left repeat-x;
     color: #fff;
- }">
-   
+ }">  
   <tr>
     <th scope="row">ID Purchase</th>
     <th>ID Flight</th>
     <th>Tickets Number</th>
     <th>Suitcases</th>
     <th>Observation</th>
-    <th>Price</th>
     <th></th>
   </tr>
-  
-    {{#each flightsFound}}
+
 
   <tr>
-    <th>{{id}}</th>
-    <th>{{idAirline}}</th>
-    <td>{{name}}</td>
-    <td>{{origin}}</td>
-    <td>{{destination}}</td>
-    <td>{{itinerary}}</td>
-    <td>{{dateTime}}</td>
-    <td>{{restrictions}}</td>
-    <td>{{services}}</td>
-    <td>{{status}}</td>
-    <td>${{price}}</td>
+    <th>{{purchase.id}}</th>
+    <th>{{purchase.idFlight}}</th>
+    <td>{{purchase.ticketsNumber}}</td>
+    <td>{{purchase.suitcases}}</td>
+    <td>{{purchase.observation}}</td>
     <td>
-        <form action="/clients/confirmPurchase/{{_id}}" method="GET">
-            <button class="btn btn-primary btn-block btn-sm" type="submit">Buy</button> 
+        <form action="/clients/checkInClients/{{purchase._id}}&{{purchase.idClient}}&{{purchase.idFlight}}" method='POST'>
+            <button class="btn btn-primary btn-block btn-sm" type="submit">Check In</button> 
         </form>
     </td>
   </tr>
-  {{/each}}
-    </table>
-    
+
+</table>
+
 </div>
+{{/if}}
+
 

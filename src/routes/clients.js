@@ -113,7 +113,7 @@ router.post('/clients/confirmPurchase/:idFlight', async (req, res) => {
             const id = 1;
             const newPurchase = new purchases({id, idClient, idFlight, ticketsNumber, suitcases, observation, status, numSeats});
             await newPurchase.save();
-            await flights.findOneAndUpdate({id:idFlight}, {ticketsSold:ticketsSold+ticketsSold});
+            await flights.findOneAndUpdate({id:idFlight}, {ticketsSold:tN});
             req.flash('success_msg', 'Successful Purchase');
             res.redirect('/clients/purchasesClients');
         }
@@ -135,9 +135,12 @@ router.get('/clients/checkIn', (req, res) => {
 router.post('/clients/checkIn-clients', async (req,res) => {
     const {clientId, flightId}= req.body;
     const errors=[];
-    const purchase = await purchases.findOne({idClient: clientId, idFlight: flightId});
+    const purchase = await purchases.findOne({idClient: clientId, idFlight: flightId, status:'Bought'});
     if(flightId=='' || clientId==''){
         errors.push({text: 'Please, Insert the Data Required'});
+    }
+    if(!purchase){
+        errors.push({text: 'Please, Review the Data. There are no Purchases with these Parameters'});
     }
     if(errors.length>0){
         res.render('clients/checkIn', {errors});
@@ -147,24 +150,25 @@ router.post('/clients/checkIn-clients', async (req,res) => {
             errors.push({text: 'The Purchase Corresponds to Another Customer'});
             res.render('clients/checkIn', {errors});
         }
-        res.render('clients/checkIn', {errors});
+        res.render('clients/checkIn', {purchase});
     }
 });
 
-router.put('/clients/checkIn-clients', async (req,res) => {
-    const {clientId, flightId}= req.body;
-    const errors=[];
-    const purchase = await purchases.findOne({idClient: clientId, idFlight: flightId});
-    if(flightId=='' || clientId==''){
-        errors.push({text: 'Please, Insert the Data Required'});
+router.post('/clients/checkInClients/:_id&:idClient&:idFlight', async (req,res) => {
+    var numSeat = [];
+    const idF = await flights.findOne({id:req.params.idFlight});
+    console.log(idF);
+    const pur = await purchases.findById(req.params._id);
+    console.log(pur);
+    var numS = parseInt(idF.seatNumber);
+    var numT = parseInt(pur.ticketsNumber);
+    var numNew = numS + numT;
+    for (i=numS; i<numNew;i++){
+        numSeat.push(i+1);
     }
-    if(errors.length>0){
-        //const airport = {id, name, country, state, address, email, telephone, webPage};
-        //res.render('airports/edit-airports',{errors,airport});
-        res.redirect('/clients/checkIn', )
-    }
-    await purchases.findAndModify({query:{ idFlight: idFlight,idClient: idClient}, update: {state: "checked"}});
-    req.flash('success_msg', 'Successful Check In');
+    await flights.findOneAndUpdate({id:req.params.idFlight}, {seatNumber:numNew});
+    await purchases.findByIdAndUpdate(req.params._id, { status:'Checkin', seatNumber:numSeat});
+    req.flash('success_msg', 'Successful Check In. Your seat numbers are:'+numSeat);
     res.redirect('/clients/checkIn');
 });
 
