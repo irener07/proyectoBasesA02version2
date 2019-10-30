@@ -13,6 +13,11 @@ const Schema = mongoose.Schema;
 
 //TERCERA CONSULTA
 
+//router.get('/employees/mostVisitedDestinations', (req, res) => {
+  //  res.render('employees/mostVisitedDestinations');
+//});
+
+/*
 router.get('/employees/moduleManagers/mostVisitedDestinations', async (req, res) => {
     const flightsFound =  await flights.find();
     const purchasesFound = await purchases.find();
@@ -64,3 +69,7 @@ router.get('/employees/moduleManagers/mostVisitedDestinations', async (req, res)
     };
     res.render('employees/mostVisitedDestinations',{foundResults});
 });
+
+
+*/
+module.exports = router;

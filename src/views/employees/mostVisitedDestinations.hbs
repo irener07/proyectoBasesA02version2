@@ -1,4 +1,7 @@
 <div class="row">
+<div class="mx-auto">
+    <h3>Most Visited Destinations</h3>
+</div>
 <table class="egt table {
     border-collapse: separate;
     border-spacing: 5px;
@@ -7,15 +10,17 @@
  }">
 
     <tr>
-    <th scope="row">Destination</th>
-    <th>Quantity of Visitors</th>
+    <th scope="row">Destinations</th>
+    <th>Visitors</th>
     </tr>
-        {{#each resultsFound}}
+
+        {{#each foundResults}}
 
     <tr>
         <td>{{destinationName}}</td>
-        <td>{{quantityTickets}}</td>
+        <td>{{visitors}}</td>
     </tr>
+    {{/each}}
 
 </table>
 </div>
