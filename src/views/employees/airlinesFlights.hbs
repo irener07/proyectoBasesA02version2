@@ -1,0 +1,32 @@
+<div class="row">
+<table class="egt table {
+    border-collapse: separate;
+    border-spacing: 5px;
+    background: #000 url("gradient.gif") bottom left repeat-x;
+    color: #fff;
+ }">
+
+    <tr>
+    <th scope="row">Airline</th>
+    <th>Flight Name</th>
+    <th>Origin</th>
+    <th>Destination</th>
+    <th>Date</th>
+    <th>Tickets Sold</th>
+    <th>Total Amount</th>
+    </tr>
+
+        {{#each airlineFlights}}
+
+    <tr>
+        <td>{{airlineName}}</td>
+        <td>{{flightName}}</td>
+        <td>{{origin}}</td>
+        <td>{{destination}}</td>
+        <td>{{date}}</td>
+        <td>{{tickets}}</td>
+        <td>{{totalAmount}}</td>
+    </tr>
+
+</table>
+</div>
