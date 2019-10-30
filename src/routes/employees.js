@@ -321,16 +321,17 @@ router.post('/employees/moduleEmployees/registeredFlights', async (req,res) => {
         res.render('employees/registeredFlights',{flightsFound});
     }
     if (dateTimeBegin.length==0 && dateTimeEnd.length==0 && firstName=='' && lastName =='' && status!='any'){
-        const flightsFound = flights.find({status:status});
+        const flightsFound = await flights.find({status:status});
         console.log(flightsFound);
         res.render('employees/registeredFlights',{flightsFound});
     }
-    /*
-    if (dateTimeBegin=='' & dateTimeEnd=='' & status=='Any'){
-        const clientFound = clients.findOne({firstName:firstName,lastName:lastName});
-        const flightsFound = flights.find({idClient:clientFound.id});
+
+    if (firstName!='' && lastName!='' && dateTimeBegin=='' && dateTimeEnd=='' && status=='any'){
+        const clientFound = await clients.findOne({firstName:firstName,lastName:lastName});
+        const flightsFound = await flights.find({idClient:clientFound.id});
         res.render('employees/registeredFlights',{flightsFound});
     }
+        /*
     if (dateTimeBegin!='' & dateTimeEnd!='' & status!='Any' & firstName=='' & lastName==''){
         const flightsFound = flights.find({dateTime:{$gte:dateTimeBegin},datime:{$lte:dateTimeEnd},status:status});
         res.render('employees/registeredFlights',{flightsFound});        
