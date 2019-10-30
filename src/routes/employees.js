@@ -304,6 +304,7 @@ router.post('/employees/moduleEmployees/registeredFlights', async (req,res) => {
     if (dateTimeBegin=='' && dateTimeEnd=='' && status=='any' && firstName=='' && lastName==''){
         const flightsFound = await flights.find();
         res.render('employees/registeredFlights',{flightsFound});
+        return;
     }
     if ((dateTimeBegin=='' && dateTimeEnd!='') || (dateTimeBegin!='' && dateTimeEnd=='')){
         errors.push({text:"Please fulfill both dates for range"});
