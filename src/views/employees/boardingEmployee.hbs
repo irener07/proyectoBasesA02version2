@@ -1,0 +1,65 @@
+<div class="row">
+    <div class="card">
+        <div class="card-header">
+            <h1>Boarding</h1> 
+        </div>
+        <div class="card-body">
+            <form action="/employees/boarding/search" method='POST'> 
+                <div class="form-group">
+                    <label>ID Client</label>
+                    <input type="number" name="clientId" min="1" step="1" id="clientId">
+                </div>
+                <div class="form-group">
+                    <label>ID Flight</label>
+                    <input type="number" name="flightId" min="0" step="1" id="flightId">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Search
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{{#if purchase}}
+<div class="row">
+
+    <div class="card-header">
+        <h1>Purchase</h1> 
+    </div>
+<table class="egt table {
+    border-collapse: separate;
+    border-spacing: 5px;
+    background: #000 url("gradient.gif") bottom left repeat-x;
+    color: #fff;
+ }">  
+  <tr>
+    <th scope="row">ID Purchase</th>
+    <th>ID Flight</th>
+    <th>Tickets Number</th>
+    <th>Suitcases</th>
+    <th>Observation</th>
+    <th></th>
+  </tr>
+
+
+  <tr>
+    <th>{{purchase.id}}</th>
+    <th>{{purchase.idFlight}}</th>
+    <td>{{purchase.ticketsNumber}}</td>
+    <td>{{purchase.suitcases}}</td>
+    <td>{{purchase.observation}}</td>
+    <td>
+        <form action="/employees/boardingEmployee/{{purchase._id}}&{{purchase.idClient}}&{{purchase.idFlight}}" method='POST'>
+            <button class="btn btn-primary btn-block btn-sm" type="submit">Change Status</button> 
+        </form>
+    </td>
+  </tr>
+
+</table>
+
+</div>
+{{/if}}

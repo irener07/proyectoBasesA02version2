@@ -146,7 +146,7 @@ router.post('/clients/checkIn-clients', async (req,res) => {
         res.render('clients/checkIn', {errors});
     }
     else{
-        if (purchase.idClient!=clientId){
+        if (purchase.idClient!=dataUserConnected.idUserConnected){
             errors.push({text: 'The Purchase Corresponds to Another Customer'});
             res.render('clients/checkIn', {errors});
         }
