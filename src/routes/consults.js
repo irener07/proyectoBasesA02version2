@@ -6,7 +6,6 @@ const flights = require('../models/flights');
 const clients = require('../models/clients');
 const airports = require('../models/airports');
 const airlines = require('../models/airlines');
-const Schema = mongoose.Schema;
 
 
 
