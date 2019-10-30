@@ -170,7 +170,6 @@ router.get('/employees/moduleManagers/airlineFlights', async (req, res) => {
     });
     res.render('employees/airlinesFlights',{airlineFlights});
 });
-module.exports = router;
 
 router.get('/employees/moduleManagers/passengersTicketsRange', async (req, res) => {
     const clientsFound = await clients.find();
@@ -204,3 +203,59 @@ router.get('/employees/moduleManagers/passengersTicketsRange', async (req, res) 
     res.render('employees/passengersTicketsRange',{passengersTicketsRanges});
 });
 
+
+//                                  Employee's Reports
+router.get('/employees/moduleEmployees/registeredFlights', (req, res) => {
+    res.render('employees/registeredFlights');
+});
+
+router.post('/employees/moduleEmployees/registeredFlights', async (req,res) => {
+    console.log(req.body);
+    const {dateTimeBegin, dateTimeEnd, status, firstName, lastName} = req.body;
+    const errors = [];
+    if (dateTimeBegin=='' && dateTimeEnd=='' && status=='any' && firstName=='' && lastName==''){
+        const flightsFound = await flights.find();
+        res.render('employees/registeredFlights',{flightsFound});
+    }
+    /*
+    if ((dateTimeBegin=='' && dateTimeEnd!='') || (dateTimeBegin!='' && dateTimeEnd=='')){
+        errors.push({text:"Please fulfill both dates for range"});
+    }
+    if (firstName!='' || lastName!=''){
+        if (firstName=='' && lastName==''){
+            errors.push({text:"Please enter a full name"});          
+        }
+    }*/
+    if (status=='any' && firstName=='' && lastName==''){
+        const flightsFound = await flights.find({dateTime:{$gte:dateTimeBegin,$lte:dateTimeEnd}});
+        console.log(flightsFound);
+        res.render('employees/registeredFlights',{flightsFound});
+    }
+    if (dateTimeBegin.length==0 && dateTimeEnd.length==0 && firstName=='' && lastName =='' && status!='any'){
+        const flightsFound = flights.find({status:status});
+        console.log(flightsFound);
+        res.render('employees/registeredFlights',{flightsFound});
+    }
+    /*
+    if (dateTimeBegin=='' & dateTimeEnd=='' & status=='Any'){
+        const clientFound = clients.findOne({firstName:firstName,lastName:lastName});
+        const flightsFound = flights.find({idClient:clientFound.id});
+        res.render('employees/registeredFlights',{flightsFound});
+    }
+    if (dateTimeBegin!='' & dateTimeEnd!='' & status!='Any' & firstName=='' & lastName==''){
+        const flightsFound = flights.find({dateTime:{$gte:dateTimeBegin},datime:{$lte:dateTimeEnd},status:status});
+        res.render('employees/registeredFlights',{flightsFound});        
+    }
+    if (dateTimeBegin!='' & dateTimeEnd!='' & status=='Any' & firstName!='' & lastName!=''){
+        const clientFound = clients.findOne({firstName:firstName,lastName:lastName});
+        const flightsFound = flights.find({dateTime:{$gte:dateTimeBegin},datime:{$lte:dateTimeEnd},idClient:clientFound.id});
+        res.render('employees/registeredFlights',{flightsFound}); 
+    }
+    if (status!='Any' & firstName!='' & lastName!='' & dateTimeBegin=='' & dateTimeEnd==''){
+        const clientFound = clients.findOne({firstName:firstName,lastName:lastName});
+        const flightsFound = flights.find({status:status,idClient:clientFound.id});
+        res.render('employees/registeredFlights',{flightsFound});         
+    }*/
+});
+
+module.exports = router;
