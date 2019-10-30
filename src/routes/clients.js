@@ -152,4 +152,39 @@ router.put('/clients/checkIn-clients/:id', async (req,res) => {
 });
 
 
+//Flights Query
+router.get('/clients/flightsReports', (req, res) => {
+    res.render('clients/flightsQuery');
+});
+
+router.post('/clients/flightsReports', async (req, res) => {
+    const {status, date01, date02}= req.body;
+    const idClient = dataUserConnected.idUserConnected;
+    const errors=[];
+    if(status==-1 || date01>date02){
+        errors.push({text: 'Please, Review the Data'});
+    }
+    if(errors.length>0){
+        res.render('clients/flightsReports',{errors, status, date01, date02});
+    }
+    if(status!=-1 && date01.value == " " && date01.value == " " ){
+        const flightsId = await purchases.found({idClient:idClients})
+    }
+    else{
+        const flightsFound = await flights.find({origin:origin, destination:destination, dateTime: {
+            $gte: date01,
+            $lt: date02
+        }, $expr: { $gt: [ "$maximumCapacity", "$ticketsSold"]} });
+        if (flightsFound.length<1){
+            errors.push({text: 'Do not exist Flights this filters'});
+            res.render('clients/purchasesClients',{errors, origin, destination, date01, date02});
+            return;
+        }
+        else{
+            res.render('clients/flightsReports', {flightsFound});
+        }
+    }
+});
+
+
 module.exports = router;
