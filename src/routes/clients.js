@@ -38,6 +38,7 @@ router.post('/clients/signUpClients', async (req, res) => {
         }
         const newClient = new clients({id, firstName, lastName, birthDate, nationality, country, state, address, email, password, telephone});
         newClient.password = await newClient.encryptPassword(password);
+        console.log(newClient);
         await newClient.save();
         req.flash('success_msg', 'Successful Registration');
         res.redirect('/');

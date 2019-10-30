@@ -1,0 +1,81 @@
+<div class="row">
+    <div class="card">
+        <div class="card-header">
+            <h1>Check Number of Tickets</h1> 
+        </div>
+        <div class="card-body">
+            <form action="/employees/checkNumberTickets/search" method='POST'> 
+                <div class="form-group">
+                    <label>ID Client</label>
+                    <input type="number" name="clientId" min="1" step="1" id="clientId">
+                </div>
+                <div class="form-group">
+                    <label>Range of Date</label>
+                    <input type="date" name="date01">
+                    <input type="date" name="date02">
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name ="status" id ="status">
+                        <option value="-1">Select Option</option>
+                        <option value="Ontime">On Time</option>
+                        <option value="Delayed">Delayed</option>
+                        <option value="Canceled">Canceled</option>     
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Search
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{#if numT}}
+<div class="row">
+    <div class="card-header">
+        <h1>Number Tickets</h1> 
+        <h3>{{numT}}</h3>
+    </div>
+</div>
+{{/if}}
+
+<br>
+<br>
+
+{{#if topClients}}
+<div class="row">
+    <div class="card-header">
+        <h1>Top 3 Clients</h1> 
+    </div>
+<table class="egt table {
+    border-collapse: separate;
+    border-spacing: 5px;
+    background: #000 url("gradient.gif") bottom left repeat-x;
+    color: #fff;
+ }">  
+    <tr>
+    <th scope="row">Name</th>
+    <th>Number Purchases</th>
+    </tr>
+
+    <tr>
+        <td>{{topClients.name01}}</td>
+        <td>{{topClients.tickets01}}</td>
+    </tr>
+
+    <tr>
+        <td>{{topClients.name02}}</td>
+        <td>{{topClients.tickets02}}</td>
+    </tr>
+
+    <tr>
+        <td>{{topClients.name03}}</td>
+        <td>{{topClients.tickets03}}</td>
+    </tr>
+ 
+</table>
+{{/if}}
+</div>
