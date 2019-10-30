@@ -3,6 +3,7 @@ const router = express.Router();
 const employees = require('../models/employees');
 const airlines = require('../models/airlines');
 const flights = require('../models/flights');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const currentDate = Date.now;
 
@@ -93,46 +94,24 @@ router.get('/employees/moduleManagers/airlineFlights', async (req, res) => {
     const airlinesFound =  await airlines.find();
     const flightsFound = await flights.find();
     const airlineFlights = new Array();
-    const airlineFlight = new Schema({
-        airlineName: {
-            type: String
-        },
-        flightName: {
-            type: String
-        },
-        origin: {
-            type: String
-        },
-        destination: {
-            type: String
-        },
-        date: {
-            type: Date
-        },
-        tickets: {
-            type: Number
-        },
-        totalAmount: {
-            type: Number
-        }});
-    for (flight in flightsFound) {
-        for (airline in airlinesFound){
+    flightsFound.forEach( (flight) => {
+        airlinesFound.forEach((airline) =>{
             if (flight.idAirline==airline.id){
-                const totalAmount = parseInt(flight.ticketsSold)*parseInt(flight.price);
-                const newAirlineFlight = new airlineFlight(
-                    airline.name,
-                    flight.name,
-                    flight.origin,
-                    flight.destination,
-                    flight.date,
-                    parseInt(flight.ticketsSold),
+                const totalAmount = flight.ticketsSold*flight.price;
+                const newAirlineFlight = {
+                    airlineName: airline.name,
+                    flightName: flight.name,
+                    origin: flight.origin,
+                    destination: flight.destination,
+                    date: flight.dateTime,
+                    tickets: parseInt(flight.ticketsSold),
                     totalAmount
-                );
+                };
                 airlineFlights.push(newAirlineFlight);
 
             }
-        }
-    }
+        });
+    });
     res.render('employees/airlinesFlights',{airlineFlights});
 });
 module.exports = router;
