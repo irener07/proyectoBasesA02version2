@@ -191,7 +191,7 @@ router.get('/employees/moduleManagers/airlineFlights', async (req, res) => {
     });
     res.render('employees/airlinesFlights',{airlineFlights});
 });
-module.exports = router;
+
 
 router.get('/employees/moduleManagers/passengersTicketsRange', async (req, res) => {
     const clientsFound = await clients.find();
@@ -225,3 +225,4 @@ router.get('/employees/moduleManagers/passengersTicketsRange', async (req, res) 
     res.render('employees/passengersTicketsRange',{passengersTicketsRanges});
 });
 
+module.exports = router;
