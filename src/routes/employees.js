@@ -88,6 +88,62 @@ router.post('/employees/signUpEmployees', async (req, res) => {
     
     });
 
+router.get('/employees/boarding', (req, res) => {
+    res.render('employees/boardingEmployee');
+});
+    
+router.post('/employees/boarding/search', async (req,res) => {
+    const {clientId, flightId}= req.body;
+    const errors=[];
+    const purchase = await purchases.findOne({idClient: clientId, idFlight: flightId, status:'Checkin'});
+    if(flightId=='' || clientId==''){
+        errors.push({text: 'Please, Insert the Data Required'});
+    }
+    if(!purchase){
+        errors.push({text: 'Please, Review the Data. There are no Purchases with these Parameters'});
+    }
+    if(errors.length>0){
+        res.render('employees/boardingEmployee', {errors});
+    }
+    else{
+        res.render('employees/boardingEmployee', {purchase});
+    }
+});
+    
+router.post('/employees/boardingEmployee/:_id&:idClient&:idFlight', async (req,res) => {
+    const pur = await purchases.findById(req.params._id);
+    await purchases.findByIdAndUpdate(req.params._id, { status:'Used'});
+    req.flash('success_msg', 'Successful Check In. The Tickets Have Changed Status');
+    res.redirect('/employees/boarding');
+});
+
+router.get('/employees/allDataClients', async (req, res) => {
+    const allClients = await clients.find();
+    res.render('employees/consultAllClients', {allClients});
+});
+
+router.get('/employees/dataClient', (req, res) => {
+    res.render('employees/consultOneClient');
+});
+    
+router.post('/employees/dataClient/search', async (req,res) => {
+    const {clientId}= req.body;
+    const errors=[];
+    const client = await clients.findOne({id:clientId});
+    if(clientId==''){
+        errors.push({text: 'Please, Insert the Data Required'});
+    }
+    if(!client){
+        errors.push({text: 'Please, Review the Data. There are no Clients with these Parameters'});
+    }
+    if(errors.length>0){
+        res.render('employees/consultOneClient', {errors});
+    }
+    else{
+        res.render('employees/consultOneClient', {client});
+    }
+});
+
   
 //                      Manager Reports
 router.get('/employees/moduleManagers/airlineFlights', async (req, res) => {

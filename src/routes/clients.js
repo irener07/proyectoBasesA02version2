@@ -146,7 +146,7 @@ router.post('/clients/checkIn-clients', async (req,res) => {
         res.render('clients/checkIn', {errors});
     }
     else{
-        if (purchase.idClient!=clientId){
+        if (purchase.idClient!=dataUserConnected.idUserConnected){
             errors.push({text: 'The Purchase Corresponds to Another Customer'});
             res.render('clients/checkIn', {errors});
         }
@@ -157,9 +157,7 @@ router.post('/clients/checkIn-clients', async (req,res) => {
 router.post('/clients/checkInClients/:_id&:idClient&:idFlight', async (req,res) => {
     var numSeat = [];
     const idF = await flights.findOne({id:req.params.idFlight});
-    console.log(idF);
     const pur = await purchases.findById(req.params._id);
-    console.log(pur);
     var numS = parseInt(idF.seatNumber);
     var numT = parseInt(pur.ticketsNumber);
     var numNew = numS + numT;
