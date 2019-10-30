@@ -3,7 +3,7 @@ const router = express.Router();
 const employees = require('../models/employees');
 const airlines = require('../models/airlines');
 const flights = require('../models/flights');
-const Schema = mongoose.Schema;
+//const Schema = mongoose.Schema;
 const currentDate = Date.now;
 
 //              MOSTRAR EMPLEADOS

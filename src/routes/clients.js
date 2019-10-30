@@ -174,36 +174,64 @@ router.post('/clients/checkInClients/:_id&:idClient&:idFlight', async (req,res) 
 
 
 //Flights Query
-router.get('/clients/flightsReports', (req, res) => {
-    res.render('clients/flightsQuery');
+router.get('/clients/flightsReport', (req, res) => {
+    res.render('clients/flightsReport');
 });
 
-router.post('/clients/flightsReports', async (req, res) => {
+router.post('/clients/flightsReport', async (req, res) => {
     const {status, date01, date02}= req.body;
     const idClient = dataUserConnected.idUserConnected;
     const errors=[];
+    
     if(status==-1 || date01>date02){
         errors.push({text: 'Please, Review the Data'});
     }
     if(errors.length>0){
-        res.render('clients/flightsReports',{errors, status, date01, date02});
+        res.render('clients/flightsReport',{errors, status, date01, date02});
     }
-    if(status!=-1 && date01.value == " " && date01.value == " " ){
-        const flightsId = await purchases.found({idClient:idClients})
+    if(status!=-1 && date01== " " && date01== " " ){
+        const purchasesFound = await purchases.find({idClient:idClient});
+        const flightsFound = await flights.find({status:status})
+        const flightsRequests = new Array();
+        for (purchase in purchasesFound){
+            for (flight in flightsFound){
+                if (purchase.idFlight == flight.idFlight){
+                    flightsRequests.push(flight);
+                
+                }
+            }
+        }
+        res.render('clients/flightsReport', {flightsRequests});
+
+    }
+    if(status==-1 && date01!= " " && date01!= " " ){
+        const purchasesFound = await purchases.find({idClient:idClient});
+        const flightsFound = await flights.find({dateTime: {$gte: date01,$lt: date02}});
+        const flightsRequests = new Array();
+        for (purchase in purchasesFound){
+            for (flight in flightsFound){
+                if (purchase.idFlight == flight.idFlight){
+                    flightsRequests.push(flight);
+                
+                }
+            }
+        }
+        res.render('clients/flightsReport', {flightsRequests});
+
     }
     else{
-        const flightsFound = await flights.find({origin:origin, destination:destination, dateTime: {
-            $gte: date01,
-            $lt: date02
-        }, $expr: { $gt: [ "$maximumCapacity", "$ticketsSold"]} });
-        if (flightsFound.length<1){
-            errors.push({text: 'Do not exist Flights this filters'});
-            res.render('clients/purchasesClients',{errors, origin, destination, date01, date02});
-            return;
+        const purchasesFound = await purchases.find({idClient:idClient});
+        const flightsFound = await flights.find({status:status,dateTime: {$gte: date01,$lt: date02}});
+        const flightsRequests = new Array();
+        for (purchase in purchasesFound){
+            for (flight in flightsFound){
+                if (purchase.idFlight == flight.idFlight){
+                    flightsRequests.push(flight);
+                
+                }
+            }
         }
-        else{
-            res.render('clients/flightsReports', {flightsFound});
-        }
+        res.render('clients/flightsReport', {flightsRequests});
     }
 });
 
