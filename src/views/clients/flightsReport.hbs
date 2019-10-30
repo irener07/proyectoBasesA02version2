@@ -6,11 +6,12 @@
         <div class="card-body ">
             <form action="/clients/flightsReport" method='POST'> 
                 <div class="form-group">
-                    Status:
-                    <select name ="status" id ="status">
-                        <option value="Ontime">On Time</option>
-                        <option value="Delayed">Delayed</option>
-                        <option value="Canceled">Canceled</option>     
+                    Select Status:
+                    <select id ="status" name="status">
+                        <option selected name=default>Select Status</option>
+                        <option value="Ontime" name="Ontime">Ontime</option>
+                        <option value="Delayed" name="Delayed">Delayed</option>
+                        <option value="Canceled" name="Canceled">Canceled</option>     
                     </select>
                 </div>
                 
@@ -42,7 +43,6 @@
  }">
    
   <tr>
-    <th scope="row">ID</th>
     <th>Airline</th>
     <th>Name</th>
     <th>Origin</th>
@@ -56,10 +56,9 @@
     <th></th>
   </tr>
   
-    {{#each flightsFound}}
+    {{#each flightsRequests}}
 
   <tr>
-    <th>{{id}}</th>
     <th>{{idAirline}}</th>
     <td>{{name}}</td>
     <td>{{origin}}</td>
