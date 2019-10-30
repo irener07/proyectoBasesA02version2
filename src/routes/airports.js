@@ -66,9 +66,8 @@ router.put('/airports/modify-airport/:id', async (req,res) => {
         errors.push({text: 'Please, Insert the Data'});
     }
     if(errors.length>0){
-        //const airport = {id, name, country, state, address, email, telephone, webPage};
-        //res.render('airports/edit-airports',{errors,airport});
-        res.redirect('/airports/modify/:id')
+        const airport = await airports.findById(req.params.id);
+        res.render('airports/edit-airports', {errors,airport});
     }
     await airports.findByIdAndUpdate(req.params.id, {
         id, name, country, state, address, email, telephone, webPage

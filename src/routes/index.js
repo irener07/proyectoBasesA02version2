@@ -28,6 +28,7 @@ router.post('/', async (req, res) => {
         if(match){
           dataUserConnected.typeUser="Client";
           dataUserConnected.idUserConnected=user.id;
+          console.log(dataUserConnected.idUserConnected);
           res.redirect('clients/mainModule');
         } else{
           errors.push({text: 'The Password or Email or Type are Incorrect.'});

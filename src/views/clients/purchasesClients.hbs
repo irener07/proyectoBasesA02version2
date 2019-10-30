@@ -75,7 +75,7 @@
     <td>{{status}}</td>
     <td>${{price}}</td>
     <td>
-        <form action="/clients/confirmPurchase/{{_id}}/{{#each dataUserConnected}}{{idUserConnected}}{{/each}}" method="GET">
+        <form action="/clients/confirmPurchase/{{_id}}" method="GET">
             <button class="btn btn-primary btn-block btn-sm" type="submit">Buy</button> 
         </form>
     </td>
