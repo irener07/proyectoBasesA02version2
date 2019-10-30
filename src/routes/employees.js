@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const employees = require('../models/employees');
+const airlines = require('../models/airlines');
+const flights = require('../models/flights');
+const Schema = mongoose.Schema;
 const currentDate = Date.now;
 
 //              MOSTRAR EMPLEADOS
@@ -85,5 +88,52 @@ router.post('/employees/signUpEmployees', async (req, res) => {
     });
 
   
+//                      Manager Reports
+router.get('/employees/moduleManagers/airlineFlights', async (req, res) => {
+    const airlinesFound =  await airlines.find();
+    const flightsFound = await flights.find();
+    const airlineFlights = new Array();
+    const airlineFlight = new Schema({
+        airlineName: {
+            type: String
+        },
+        flightName: {
+            type: String
+        },
+        origin: {
+            type: String
+        },
+        destination: {
+            type: String
+        },
+        date: {
+            type: Date
+        },
+        tickets: {
+            type: Number
+        },
+        totalAmount: {
+            type: Number
+        }});
+    for (flight in flightsFound) {
+        for (airline in airlinesFound){
+            if (flight.idAirline==airline.id){
+                const totalAmount = parseInt(flight.ticketsSold)*parseInt(flight.price);
+                const newAirlineFlight = new airlineFlight(
+                    airline.name,
+                    flight.name,
+                    flight.origin,
+                    flight.destination,
+                    flight.date,
+                    parseInt(flight.ticketsSold),
+                    totalAmount
+                );
+                airlineFlights.push(newAirlineFlight);
+
+            }
+        }
+    }
+    res.render('employees/airlinesFlights',{airlineFlights});
+});
 module.exports = router;
 
