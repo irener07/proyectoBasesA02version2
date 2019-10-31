@@ -8,6 +8,9 @@ const dataUserConnected = require('../configuration/connectDB');
 
 
 router.get('/', (req, res) => {
+    dataUserConnected.idUserConnected='';
+    dataUserConnected.typeUser='';
+    dataUserConnected.idFlight='';
     res.render('index');
 });
 
@@ -34,6 +37,10 @@ router.post('/', async (req, res) => {
           res.render('index',{errors, email, password});
         } 
       }
+      else{
+        errors.push({text: 'The Type are Incorrect.'});
+        res.render('index',{errors, email, password});
+      }
     }
     if(typeUser=="Employee"){
       const user = await employee.findOne({email: email});
@@ -46,8 +53,11 @@ router.post('/', async (req, res) => {
             dataUserConnected.idUserConnected=user.id;
             res.redirect('employees/moduleEmployees');
           }
+          else{
+            errors.push({text: 'The Type are Incorrect.'});
+            res.render('index',{errors, email, password});}
         } else{
-          errors.push({text: 'The Password or Email or Type are Incorrect.'});
+          errors.push({text: 'The Type are Incorrect.'});
           res.render('index',{errors, email, password});
         } 
       }
@@ -63,10 +73,17 @@ router.post('/', async (req, res) => {
             dataUserConnected.idUserConnected=user.id;
             res.redirect('employees/moduleManagers');
           }
+          else{
+            errors.push({text: 'The Type are Incorrect.'});
+            res.render('index',{errors, email, password});}
         } else{
           errors.push({text: 'The Password or Email or Type are Incorrect.'});
           res.render('index',{errors, email, password});
         } 
+      }
+      else{
+        errors.push({text: 'The Type are Incorrect.'});
+        res.render('index',{errors, email, password});
       }
     }
   }
