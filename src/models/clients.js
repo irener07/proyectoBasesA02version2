@@ -55,7 +55,7 @@ const clientsSchema = new Schema({
         required: true, 
     },
     telephone: {
-        type: String,
+        type: Array,
         required: true,
     }
 });
