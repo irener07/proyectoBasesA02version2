@@ -26,7 +26,7 @@ const employeesSchema = new Schema({
         default: Date.now
     },
     jobArea: {
-        type: String,
+        type: Array,
         required: true
     },
     email: {
