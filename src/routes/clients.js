@@ -45,9 +45,30 @@ router.post('/clients/signUpClients', async (req, res) => {
     }
 });
 
-router.get('/clients/moduleClients', (req, res) => {
-    res.render('clients/moduleClients');
+router.get('/clients/moduleClients', async(req, res) => {
+    const clientsFound = await clients.find();
+    res.render('clients/moduleClients', {clientsFound});
 });
+
+router.get('/clients/modify/:id', async (req, res) => {
+    const client = await clients.findById(req.params.id);
+    res.render('clients/editClients', {client});
+});
+
+router.put('/clients/modify-client/:id', async (req,res) => {
+    const {id, firstName, lastName, birthDate, nationality, country, state, address, email, telephone}= req.body;
+    
+    await clients.findByIdAndUpdate(req.params.id, {
+        id, firstName, lastName, birthDate, nationality, country, state, address, email, telephone
+    });
+    res.redirect('/clients/moduleClients');
+});
+
+router.delete('/clients/delete/:id', async (req, res) => {
+    await clients.findByIdAndDelete(req.params.id);
+    res.redirect('/clients/moduleClients');
+});
+
 
 router.get('/clients/purchasesClients', (req, res) => {
     res.render('clients/purchasesClients');

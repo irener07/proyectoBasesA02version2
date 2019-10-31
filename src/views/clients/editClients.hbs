@@ -4,7 +4,7 @@
             <h3>Edit Client</h3>
         </div>
         <div class="card-body">
-            <form action="/clients/editClients/{client._id}}?_method=PUT" method="POST">
+            <form action="/clients/modify-client/{{client._id}}?_method=PUT" method="POST">
             <input type="hidden" name="_method" value="PUT">
             <div class="form-group">
                         <label>ID Client</label>
@@ -41,10 +41,6 @@
                     <div class="form-group">
                         <label>Email</label>
                         <input type="email" class="form-control" name="email" placeholder="Email" value={{client.email}}>
-                    </div>
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" class="form-control" name="password" placeholder="Password" value={{client.password}}>
                     </div>
                     <div class="form-group">
                         <label>Telephone</label>

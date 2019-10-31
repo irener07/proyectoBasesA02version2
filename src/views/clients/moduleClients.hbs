@@ -1,37 +1,61 @@
+
 <div class="row">
-    {{#each clients}}
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body align-items-center d-flex justify-content-center">
-                    <p>{{id}}</p> <a href="/clients/edit/{{_id}}"><i class="fas fa-edit"></i></a>
-                    <p>{{firstName}}</p>
-                    <p>{{lastName}}</p>
-                    <p>{{birthDate}}</p>
-                    <p>{{nationality}}</p>
-                    <p>{{country}}</p>
-                    <p>{{state}}</p>
-                    <p>{{adress}}</p>
-                    <p>{{email}}</p>
-                    <p>{{password}}</p>
-                    <p>{{telephone}}</p>
-                    
+<table class="egt table {
+    border-collapse: separate;
+    border-spacing: 5px;
+    background: #000 url("gradient.gif") bottom left repeat-x;
+    color: #fff;
+ }">
+   
+  <tr>
+    <th scope="row">ID</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Birth Date</th>
+    <th>Nationality</th>
+    <th>Country</th>
+    <th>State</th>
+    <th>Address</th>
+    <th>Email</th>
+    <th>Telephone</th>
+    <th></th>
+    <th></th>
+  </tr>
+  
+    {{#each clientsFound}}
 
-                    <form action="/clients/delete/{{_id}}?_method=DELETE" method="POST">
-                    <input type="hidden" name="_method" value="DELETE">
-
-                    <button class="btn btn-danger btn-block btn-sm" type="submit">
-                        Delete
-                    </button>
-                    </form>
-
-                </div>
-            </div>
-        </div>
+  <tr>
+    <th>{{id}}</th>
+    <td>{{firstName}}</td>
+    <td>{{lastName}}</td>
+    <td>{{birthDate}}</td>
+    <td>{{nationality}}</td>
+    <td>{{country}}</td>
+    <td>{{state}}</td>
+    <td>{{address}}</td>
+    <td>{{email}}</td>
+    <td>{{telephone}}</td>
+    <td>
+        <form action="/clients/delete/{{_id}}?_method=DELETE" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <button class="btn btn-danger btn-block btn-sm" type="submit">
+                Delete
+                </button> 
+        </form>
+    </td>
+    <td>
+        <a href="/clients/modify/{{_id}}" class="btn btn-primary btn-block btn-sm">
+        Modify
+        </a>
+    </td>
+  </tr>
         {{else}}
             <div class="card mx-auto">
                 <div class="card-body">
-                    <p class="lead">There are no clients yet.</p>
+                    <h4 class="lead">No clients have been found.</h4>
                 </div> 
             </div>
     {{/each}}
+    </table>
 </div>
+
