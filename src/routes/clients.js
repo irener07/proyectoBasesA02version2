@@ -50,6 +50,7 @@ router.get('/clients/moduleClients', (req, res) => {
 });
 
 router.get('/clients/purchasesClients', (req, res) => {
+    dataUserConnected.idFlight='';
     res.render('clients/purchasesClients');
 });
 
